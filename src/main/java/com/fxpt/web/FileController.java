@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,7 +67,12 @@ public class FileController {
 
 		InputStream inputStream;
 		//System.out.println("             "+request.getRealPath("/"));
-		String basePath=request.getRealPath("/")+"upload\\index\\";
+		String basePath="D:\\fxpt_upload\\index\\";
+
+		File f = new File(basePath);
+		if(!f.exists()){
+			f.mkdir();
+		}
 
 
 		byte[] data = new byte[1024];
@@ -101,7 +107,16 @@ public class FileController {
 		logUtil.addLog("访问首页图片管理",emp1.getId(),emp1.getName());
 
 		model.addAttribute("menuUtil", menuUtil);
-		return "file/test";
+		return "file/index";
+	}
+
+
+	@RequestMapping(value = "/addimg")
+	public String addimg(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
+		User emp1 = (User) request.getSession().getAttribute("empSession");
+		logUtil.addLog("访问添加首页图片管理",emp1.getId(),emp1.getName());
+		model.addAttribute("menuUtil", menuUtil);
+		return "file/addimg";
 	}
 
 	//列表
