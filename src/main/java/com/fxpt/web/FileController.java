@@ -162,6 +162,28 @@ public class FileController {
 
 
 
+	@ResponseBody
+	@RequestMapping(value = "/lookview")
+	public Map lookview(Integer id,HttpServletRequest request){
+
+		Map map=new HashMap();
+		try{
+			User emp1 = (User) request.getSession().getAttribute("empSession");
+			logUtil.addLog("查看首页图片",emp1.getId(),emp1.getName());
+			ImgFile img = imgFileDao.getImgFileById(id);
+			map.put("name",img.getName());
+			String src=img.getImgpath();
+			//src=src.substring(src.indexOf("app\\")+4);
+			map.put("src",src);
+			map.put("message","ok");
+
+		}catch (Exception e){
+			map.put("message","error");
+			return map;
+		}
+		return map;
+	}
+
 
 	
 }
