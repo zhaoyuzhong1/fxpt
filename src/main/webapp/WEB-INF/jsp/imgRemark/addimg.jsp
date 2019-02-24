@@ -52,7 +52,7 @@
     <!-- markup -->
     <!-- note: your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
     <!-- the avatar markup -->
-    <form  action="${ctx}/imgMaterial/uploadImg" method="post" enctype="multipart/form-data">
+    <form  action="${ctx}/imgMaterial/uploadImg" method="post" enctype="multipart/form-data" id="form">
         <div class="row">
             <div class="col-sm-4 text-center">
                 <div class="kv-avatar">
@@ -60,14 +60,30 @@
                         <input id="avatar-1" name="avatar-1" type="file" required>
                     </div>
                 </div>
-                <div class="kv-avatar-hint"><small>Select file < 1500 KB</small></div>
+                <div class="kv-avatar-hint"><small>Select file < 4500 KB</small></div>
             </div>
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="name">图片名称<span class="kv-reqd">*</span></label>
+                            <label for="name">素材名称<span class="kv-reqd">*</span></label>
                             <input type="text" class="form-control" name="name" id="name" required>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name">素材类型<span class="kv-reqd">*</span></label>
+                            <select id="typeid" name="typeid">
+                                <option value="">-请选择-</option>
+                                <c:forEach items="${mts}" var="mt">
+                                    <option value="${mt.id}">${mt.name}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 
@@ -75,7 +91,7 @@
 
                 <div class="form-group">
                     <div class="text-right">
-                        <button type="submit" class="btn btn-primary" id="upload">上传</button>
+                        <button type="button" class="btn btn-primary" id="upload" onclick="uploadImg()">上传</button>
                         <button id="clear" class="btn btn-primary">返回</button>
                     </div>
                 </div>
@@ -93,7 +109,7 @@
         $("#avatar-1").fileinput({
             language: 'zh',
             overwriteInitial: true,
-            maxFileSize: 1500,
+            maxFileSize: 4500,
             showClose: false,
             showCaption: false,
             browseLabel: '',
@@ -113,6 +129,31 @@
         $("#clear").click(function(){
             window.location.href="${ctx}/imgMaterial/imgRemark";
         });
+
+
+        function uploadImg() {
+            var avatar = $("#avatar-1").val();
+            var name = $("#name").val();
+            var typeid = $("#typeid").val();
+            if(name.length<1){
+                alert("请填写素材名称！");
+                return false;
+            }
+
+
+            if(typeid.length<1){
+                alert("请选择素材类型！");
+                return false;
+            }
+
+
+            if(avatar.length<1){
+                alert("请上传素材图片！");
+                return false;
+            }
+
+            $("#form").submit();
+        }
 
 
    /*     //上传
