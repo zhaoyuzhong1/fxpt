@@ -8,6 +8,8 @@ import com.fxpt.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by wcw on 2018/12/29.
  */
@@ -34,6 +36,14 @@ public class MaterialDao {
         String sql = "select * from t_material where id=? ";
         return baseDao.queryById(sql,Material.class,new Object[]{id});
     }
+
+
+    //根据素材类型查询素材列表
+    public List<Material> selectMaterialByTypeId(Integer typeid) {
+        String sql = "select * from t_material where typeid=? order by cdate desc";
+        return baseDao.query(sql,Material.class,new Object[]{typeid});
+    }
+
 
 
     //删除素材
