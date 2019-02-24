@@ -259,7 +259,7 @@
     //查看
     function lookview(id){
         $("#model1").modal();
-        $.post("${ctx}/imgMaterial/lookview",{id:id},function (d) {
+        $.post("${ctx}/file/lookview",{id:id},function (d) {
             console.log(d);
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
