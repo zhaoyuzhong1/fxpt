@@ -33,7 +33,7 @@ public class YwLoginDao {
 
         StringBuffer sql = new StringBuffer();
         sql.append(" select * from sys_function where flag = '0' and pid=0");
-        sql.append(" and id in (SELECT functionid from t_role_function where roleid = ? ) ");
+        sql.append(" and id in (SELECT functionid from sys_role_function where roleid = ? ) ");
         sql.append(" order by `sort`");
         return baseDao.query(sql.toString(),Function.class,new Object[]{roleid});
 
