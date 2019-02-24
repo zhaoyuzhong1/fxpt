@@ -27,7 +27,7 @@ public class MaterialDao {
 
     //未审核列表
     public Page<Material> getList(String search_name,Integer pagesize, Integer count) {
-        String sql = "select tm.*,DATE_FORMAT(tm.cdate,'%Y-%m-%d %H:%i:%s') as ccdate,tu.name as username,tmt.name as typename from t_material tm left join t_user tu on tm.cuser=tu.id left join t_material_type tmt on.tm.typeid=tmt.id where tm.name like ? and tm.flag='0' order by tm.cdate desc ";
+        String sql = "select tm.*,DATE_FORMAT(tm.cdate,'%Y-%m-%d %H:%i:%s') as ccdate,tu.name as username,tmt.name as typename from t_material tm left join t_user tu on tm.cuser=tu.id left join t_material_type tmt on tm.typeid=tmt.id where tm.name like ? and tm.flag='0' order by tm.cdate desc ";
         return baseDao.queryByPage(sql,Material.class,new Object[]{"%"+search_name+"%"},pagesize,count);
     }
 
