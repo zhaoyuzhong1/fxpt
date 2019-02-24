@@ -104,10 +104,7 @@ public class ImageRemarksController {
 		InputStream inputStream;
 		//System.out.println("             "+request.getRealPath("/"));
 		String basePath = "D:\\fxpt_upload\\material\\";
-		File f = new File(basePath);
-		if(!f.exists()){
-			f.mkdir();
-		}
+
 
 		byte[] data = new byte[1024];
 		int len = 0;
@@ -144,7 +141,7 @@ public class ImageRemarksController {
             Material material=materialDao.selectMaterialById(id);
             map.put("name",material.getName());
             String src=material.getImgpath();
-            src=src.substring(src.indexOf("app\\")+4);
+            //src=src.substring(src.indexOf("app\\")+4);
             map.put("src",src);
             map.put("message","ok");
 
