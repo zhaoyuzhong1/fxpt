@@ -1,42 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="../sys/header.jsp"%>
 <!DOCcode html>
-<html lang="en">
-
-<link rel="stylesheet" href="${ctx}/css/fileupload/bootstrap.413.min.css" crossorigin="anonymous">
-<link href="${ctx}/css/fileupload/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-<link href="${ctx}/js/fileupload/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
-
-<script src="${ctx}/js/jquery-3.2.1.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/plugins/sortable.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/fileinput.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/locales/fr.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/locales/es.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/locales/zh.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/themes/fas/theme.js" type="text/javascript"></script>
-<script src="${ctx}/js/fileupload/themes/explorer-fas/theme.js" type="text/javascript"></script>
 
 <style>
-    .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
-        margin: 0;
-        padding: 0;
-        border: none;
-        box-shadow: none;
-        text-align: center;
+    img{
+        width: 100%;
+        height: 100%;
     }
-    .kv-avatar {
-        display: inline-block;
-    }
-    .kv-avatar .file-input {
-        display: table-cell;
-        width: 213px;
-    }
-    .kv-reqd {
-        color: red;
-        font-family: monospace;
-        font-weight: normal;
+    #divs{
+        width: 570px;
     }
 </style>
+<html lang="en">
+
+
 <body class="sticky-header">
 
 <!-- left side start-->
@@ -45,88 +24,106 @@
 
 <!-- main content start-->
 <div class="main-content" >
-<!-- header section start-->
-<%@include file="../ywsys/ywtop.jsp"%>
-<!-- header section end-->
-<%--------------------------------------------------------内容--%>
-<!-- page heading start-->
-<div class="wrapper">
-    <div class="row">
-        <div class="col-sm-12">
-            <section class="panel">
-                <div class="page-heading">
-                    <h3 class="panel-title">
-                        <i class="fa fa-th-list" style="margin-right: 5px"></i>首页图片管理${ctx}
-                    </h3>
-                </div>
-                <div class="panel-body" >
-
-                        <button class="btn btn-main btn-sm" type="button" onclick="add()"><i class="fa fa-search"></i> 添加</button>
-
-                </div>
-                <table id="teacher_table" data-page-size="5"> </table>
-
-            </section>
+    <!-- header section start-->
+    <%@include file="../ywsys/ywtop.jsp"%>
+    <!-- header section end-->
+    <%--------------------------------------------------------内容--%>
+    <!-- page heading start-->
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <div class="page-heading">
+                        <h3 class="panel-title">
+                            <i class="fa fa-th-list" style="margin-right: 5px"></i>首页图片管理
+                        </h3>
+                    </div>
+                    <div class="panel-body" >
+                        <div class="form-inline pull-right" style="margin-bottom:15px;">
+                            <div class="form-group form-group-sm">
+                                <input id="search_name" name="search_name" type="text" class="form-control" onkeydown="if(event.keytype==13){gosearch();}" placeholder="请输入关键字">
+                            </div>&nbsp;
+                            <button class="btn btn-main btn-sm" type="button" onclick="gosearch()"><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-warning-o btn-sm" type="button" onclick="goreset()"><i class="fa fa-repeat"></i> 重置</button>
+                            <button class="btn btn-success-o btn-sm" type="button" onclick="addImg()"><i class="fa fa-plus"></i> 添加</button>
+                        </div>
+                        <table id="teacher_table" data-page-size="5"> </table>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
-</div>
-<!--body wrapper end-->
-<%-----------------------------------------------------模态框--%>
-<div class="modal fade" id="model">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header1">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title"> 图片上传</h4>
-            </div>
-            <div class="modal-body" >
-                <form class="form-horizontal" role="form" method="post"
-                      action="${ctx}/file/uploadFile" enctype="multipart/form-data">
-
-                <input type="hidden" id="allid">
-                <input type="hidden" id="uiflag">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 图片名称：</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="name" id="name" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">上传图片：</label>
-                        <div class="kv-avatar">
-                            <div class="file-loading">
-                                <input id="avatar-1" name="avatar-1" type="file" required>
+    <!--body wrapper end-->
+    <%-----------------------------------------------------添加模态框--%>
+    <%--<div class="modal fade" id="model">--%>
+    <%--<div class="modal-dialog">--%>
+    <%--<div class="modal-content">--%>
+    <%--<div class="modal-header1">--%>
+    <%--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>--%>
+    <%--<h4 class="modal-title">添加图片素材</h4>--%>
+    <%--</div>--%>
+    <%--<div class="col-sm-4 text-center">--%>
+    <%--<div class="kv-avatar">--%>
+    <%--<div class="file-loading">--%>
+    <%--<input id="avatar-1" name="avatar-1" type="file" required>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="kv-avatar-hint"><small>Select file < 1500 KB</small></div>--%>
+    <%--</div>--%>
+    <%--<div class="col-sm-8">--%>
+    <%--<div class="row">--%>
+    <%--<div class="col-sm-6">--%>
+    <%--<div class="form-group">--%>
+    <%--<label for="name" style="color: black">图片名称<span class="kv-reqd" style="color: black">*</span></label>--%>
+    <%--<input type="text" class="form-control" name="name" id="name" required>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="form-group">--%>
+    <%--<div class="text-right">--%>
+    <%--<button id="upload" class="btn btn-primary">上传</button>--%>
+    <%--<button id="clear" class="btn btn-primary">返回</button>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div><!-- /.modal-content -->--%>
+    <%--</div><!-- /.modal-dialog -->--%>
+    <%--<div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>--%>
+    <%--</div><!-- /.modal -->--%>
+    <%----------------d----------------------------------查看图片模太窗--%>
+    <div class="modal fade" id="model1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header1">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">查看图片信息</h4>
+                </div>
+                <div class="panel-body" >
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label  class="col-lg-3 col-sm-2 control-label">图片名称：</label>
+                            <div class="col-lg-8">
+                                <label id="name1" class="labelStyle-style-lable"></label>
                             </div>
                         </div>
-                        <div class="kv-avatar-hint"><small>Select file < 1500 KB</small></div>
-                    </div>
+                        <div  id="divs">
 
-
-
+                        </div>
+                    </form>
                 </div>
-                </form>
-                <div id="kv-avatar-errors-1" class="center-block" style="width:800px;display:none"></div>
-            </div>
-            <div class="modal-footer" id="qlfoot1">
-                <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
-                <button type="submit" class="btn btn-tsolid" ><i class="fa fa-check" ></i> 确定</button>
-            </div>
-            <div class="modal-footer" id="qlfoot2" style="display: none">
-                <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
-                <button type="button" class="btn btn-tsolid" onclick="update();" ><i class="fa fa-check" ></i> 修改</button>
-            </div>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<%----------------d----------------------------------内容结束--%>
-
-<!-- main content end-->
+                <div class="modal-footer" id="qlfoot">
+                    <button type="button"  class="btn btn-thollow" data-dismiss="modal" id="myclear"><i class="fa fa-times"></i>返回</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </body>
 <script>
+    //搜索
+    function gosearch() {$('#teacher_table').bootstrapTable('refreshOptions',{pageNumber:1,pagesize:5});}
 
+    //重置
+    function goreset() {$('#search_name').val("");gosearch();}
 
     $(function () {
         var dtb1 = new DataTable1();
@@ -169,31 +166,34 @@
                     ,{
                         field: 'name',
                         title: '图片名称'
-                    },{
+                    }, {
+                        field: 'cdate',
+                        title: '上传时间'
+                    }, {
                         field: 'flag',
                         title: '状态',
                         formatter: function(value,row,index){
-                            if("0"==value){
-                                return "启用";
-                            } else if("1"==value){
-                                return "注销";
+                            if(value=='0'){
+                                return '正常';
+                            }else{
+                                return '删除';
                             }
+
                         }
-                    },{
+                    }, {
                         title: '操作',
                         width:'100px',
                         formatter: function(value,row,index){
-                            var button ='<div class="btn-group btn-group-xs">';
-
+                            var button ='<div class="btn-group btn-group-xs" style="width:130px">'+
+                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="lookview(\'' + row.id+'\')" ><i class="fa fa-eye"></i>&nbsp;查&nbsp;看</button>';
                             var b = '';
                             if(row.flag=='0'){
-                                b = '<button type="button" class="btn btn-default btn-maincolor"onclick="zx(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;注&nbsp;销</button>';
+                                b = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="zxImg(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;删&nbsp;除</button>';
                             }else{
-                                b = '<button type="button" class="btn btn-default btn-maincolor"onclick="qy(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;启&nbsp;用</button>';
+                                b = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="qyImg(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;恢&nbsp;复</button>';
                             }
 
-                            return button +b+ '</div>';
-
+                            return button +b+  '</div>';
                         }
                     }
                 ]
@@ -205,116 +205,162 @@
             return {
                 count: params.limit,  //页面大小
                 pagesize:params.offset, //页码
-
+                name:$('#search_name').val().trim()
             };
         };
         return oTableInit;
     }
 
+    //跳转添加页面
+    function addImg(){
+        window.location.href="${ctx}/file/addimg";
 
-
-    //打开修改模态框
-    function add() {
-
-        $("#qlfoot2").css("display","block");
-        $("#qlfoot1").css("display","none");
-        $('#model').modal();
     }
 
-
-
-    function zx(id) {
-        $.post("${ctx}/file/zx",{id:id},function (d) {
-            if(d=="ajaxfail"){
-                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
-                    if(btn=="yes"){
-                        window.location.href="${ctx}/sys/index";
-                    }
-                });
-            }else {
-                if(d=="ok"){
-                    Showbo.Msg.alert('注销成功');
-                    $('#teacher_table').bootstrapTable('refresh');
-                }else {
-                    Showbo.Msg.alert('注销失败');
-                }
-            }
-
-        });
-    }
-
-
-
-    function qy(id) {
-        $.post("${ctx}/file/qy",{id:id},function (d) {
-            if(d=="ajaxfail"){
-                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
-                    if(btn=="yes"){
-                        window.location.href="${ctx}/sys/index";
-                    }
-                });
-            }else {
-                if(d=="ok"){
-                    Showbo.Msg.alert('启用成功');
-                    $('#teacher_table').bootstrapTable('refresh');
-                }else {
-                    Showbo.Msg.alert('启用失败');
-                }
-            }
-
-        });
-    }
-
-
-
-    //时间format
-    function getTime(timestamp) {
-        var ts = arguments[0] || 0;
-        var t,y,m,d,h,i,s;
-        t = ts ? new Date(parseInt(ts)) : new Date();
-        y = t.getFullYear();
-        m = t.getMonth()+1;
-        d = t.getDate();
-        h = t.getHours();
-        i = t.getMinutes();
-        s = t.getSeconds();
-        // 可根据需要在这里定义时间格式
-        return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
-    }
-
-
-    function getFlag(flag) {
-        if(flag=='0'){
-            return '未审核';
-        }else if(flag=='1'){
-            return '已审核';
-        }else if(flag=='2'){
-            return '审核未通过';
-        }
-    }
-
-
-
-    $("#avatar-1").fileinput({
-        language: 'zh',
-        overwriteInitial: true,
-        maxFileSize: 1500,
-        showClose: false,
-        showCaption: false,
-        browseLabel: '',
-        removeLabel: '',
-        browseIcon: '选择文件',
-        removeIcon: '删除文件',
-        removeTitle: 'Cancel or reset changes',
-        elErrorContainer: '#kv-avatar-errors-1',
-        msgErrorClass: 'alert alert-block alert-danger',
-        defaultPreviewContent: '<img src="${ctx}/upload/default_avatar_male.jpg" alt="Your Avatar">',
-        layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
-        allowedFileExtensions: ["jpg", "png", "gif"]
+    //点击查看里的返回触发事件
+    $("#myclear").click(function(){
+        $('#model1').modal('hide');
+        $('#teacher_table').bootstrapTable('refresh');
     });
 
 
+    /*    //添加图片素材
+     function add() {
+     var name = $("#name").val();
+     var myReg = /^[^@\/\'\\\"#$%&\^\*]+$/;
+     if($.isEmptyObject(name)||name.trim()==""){
+     Showbo.Msg.alert("请输入图片名称！");
+     return false;
+     }else if (!myReg.test(name)){
+     Showbo.Msg.alert("图片名称含有非法字符，请重新输入！");
+     return false;
+     }
+     $.post("${ctx}/imgMaterial/addImg",{name:name.trim()},function (d) {
+     if(d=="ajaxfail"){
+     Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+     if(btn=="yes"){
+     window.location.href="${ctx}/sys/index";
+     }
+     });
+     }else {
+     if(d=="ok"){
+     Showbo.Msg.alert('添加成功');
+     $('#teacher_table').bootstrapTable('refresh');
+     $('#model').modal('hide');
+     }else {
+     Showbo.Msg.alert('添加失败');
+     }
+     }
+     });
+
+     }*/
+
+
+    //查看
+    function lookview(id){
+        $("#model1").modal();
+        $.post("${ctx}/imgMaterial/lookview",{id:id},function (d) {
+            console.log(d);
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d.message=="ok"){
+                    $("#name1").text(d.name);
+                    var src="${ctx}/"+d.src;
+                    /*      var fr = new FileReader();
+                     var $img = $('.index-bd .bd .img-wrap img').eq(0);
+                     var imgUrl = fr.readAsDataURL(new Blob(['@ViewBag.path'], { type: "text/plain" }));
+                     $img.attr('src', imgUrl);*/
+                    var imageStr="<image src='"+src+"' />";
+                    $("#divs").html(imageStr);
+                }else {
+                    Showbo.Msg.alert('系统出现错误,请联系系统管理员');
+                }
+            }
+
+        });
+    }
+
+
+    //删除平台
+    function deleteImg(id) {
+        Showbo.Msg.confirm('确定要删除吗？',function (btn) {
+            if(btn=='yes'){
+                $.post("${ctx}/imgMaterial/deleteImg",{id:id},function (d) {
+                    if(d=="ajaxfail"){
+                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                            if(btn=="yes"){
+                                window.location.href="${ctx}/sys/index";
+                            }
+                        });
+                    }else {
+                        if(d=="ok"){
+                            Showbo.Msg.alert('删除成功');
+                            $('#teacher_table').bootstrapTable('refresh');
+                        }else {
+                            Showbo.Msg.alert('删除失败');
+                        }
+                    }
+
+                });
+            }
+        })
+    }
+
+
+
+    function qyImg(id) {
+        Showbo.Msg.confirm('确定要恢复吗？',function (btn) {
+            if(btn=='yes'){
+                $.post("${ctx}/file/qyImg",{id:id},function (d) {
+                    if(d=="ajaxfail"){
+                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                            if(btn=="yes"){
+                                window.location.href="${ctx}/sys/index";
+                            }
+                        });
+                    }else {
+                        if(d=="ok"){
+                            Showbo.Msg.alert('恢复成功');
+                            $('#teacher_table').bootstrapTable('refresh');
+                        }else {
+                            Showbo.Msg.alert('恢复失败');
+                        }
+                    }
+
+                });
+            }
+        })
+    }
+
+
+
+    function zxImg(id) {
+        Showbo.Msg.confirm('确定要删除吗？',function (btn) {
+            if(btn=='yes'){
+                $.post("${ctx}/file/zxImg",{id:id},function (d) {
+                    if(d=="ajaxfail"){
+                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                            if(btn=="yes"){
+                                window.location.href="${ctx}/sys/index";
+                            }
+                        });
+                    }else {
+                        if(d=="ok"){
+                            Showbo.Msg.alert('删除成功');
+                            $('#teacher_table').bootstrapTable('refresh');
+                        }else {
+                            Showbo.Msg.alert('删除失败');
+                        }
+                    }
+
+                });
+            }
+        })
+    }
 </script>
-
-
 </html>
