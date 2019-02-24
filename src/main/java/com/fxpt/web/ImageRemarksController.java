@@ -3,6 +3,7 @@ package com.fxpt.web;
 import com.fxpt.dao.CashDao;
 import com.fxpt.dao.ImgFileDao;
 import com.fxpt.dao.MaterialDao;
+import com.fxpt.dao.MaterialTypeDao;
 import com.fxpt.dto.*;
 import com.fxpt.service.InterService;
 import com.fxpt.util.LogUtil;
@@ -20,15 +21,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "imgMaterial")
@@ -41,6 +40,8 @@ public class ImageRemarksController {
 	InterService interService;
 	@Autowired
 	private MaterialDao materialDao;
+	@Autowired
+	MaterialTypeDao materialTypeDao;
 
 
 
@@ -48,7 +49,7 @@ public class ImageRemarksController {
 	@RequestMapping(value = "/imgRemark")
 	public String index(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
 		User emp1 = (User) request.getSession().getAttribute("empSession");
-		logUtil.addLog("访问图片说明管理",emp1.getId(),emp1.getName());
+		logUtil.addLog("访问素材图片管理",emp1.getId(),emp1.getName());
 		model.addAttribute("menuUtil", menuUtil);
 		return "imgRemark/imgremark";
 	}
@@ -75,8 +76,10 @@ public class ImageRemarksController {
     @RequestMapping(value = "/addimg")
     public String addimg(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
         User emp1 = (User) request.getSession().getAttribute("empSession");
-        logUtil.addLog("访问添加图片管理",emp1.getId(),emp1.getName());
+        logUtil.addLog("访问添加素材管理",emp1.getId(),emp1.getName());
+		List<MaterialType> mts = materialTypeDao.getMaterialTypes();
         model.addAttribute("menuUtil", menuUtil);
+		model.addAttribute("mts", mts);
         return "imgRemark/addimg";
     }
 	@RequestMapping(value = "/uploadImg")
@@ -90,6 +93,7 @@ public class ImageRemarksController {
 		MultipartFile multipartFile = null;
 		Map map = multipartRequest.getFileMap();
 		String name = multipartRequest.getParameter("name");
+		String typeid = multipartRequest.getParameter("typeid");
 		System.out.println("name:" + name);
 		for (Iterator i = map.keySet().iterator(); i.hasNext(); ) {
 			Object obj = i.next();
@@ -99,7 +103,12 @@ public class ImageRemarksController {
 		String filename = multipartFile.getOriginalFilename();
 		InputStream inputStream;
 		//System.out.println("             "+request.getRealPath("/"));
-		String basePath = request.getRealPath("/") + "upload\\index\\";
+		String basePath = "D:\\fxpt_upload\\material\\";
+		File f = new File(basePath);
+		if(!f.exists()){
+			f.mkdir();
+		}
+
 		byte[] data = new byte[1024];
 		int len = 0;
 		FileOutputStream fileOutputStream = null;
@@ -111,6 +120,7 @@ public class ImageRemarksController {
 			}
 			Material material=new Material();
 			material.setName(name);
+			material.setTypeid(Integer.parseInt(typeid));
 			material.setImgpath(basePath + filename);
 			material.setCuser(emp1.getId());
 			materialDao.addMaterial(material);
@@ -130,7 +140,7 @@ public class ImageRemarksController {
         Map map=new HashMap();
         try{
             User emp1 = (User) request.getSession().getAttribute("empSession");
-            logUtil.addLog("取消提货",emp1.getId(),emp1.getName());
+            logUtil.addLog("查看素材",emp1.getId(),emp1.getName());
             Material material=materialDao.selectMaterialById(id);
             map.put("name",material.getName());
             String src=material.getImgpath();
@@ -155,7 +165,7 @@ public class ImageRemarksController {
 		String message="";
 		try{
 			User emp1 = (User) request.getSession().getAttribute("empSession");
-			logUtil.addLog("取消提货",emp1.getId(),emp1.getName());
+			logUtil.addLog("删除素材",emp1.getId(),emp1.getName());
 			materialDao.updateMaterial(id);
 			message="ok";
 		}catch (Exception e){
