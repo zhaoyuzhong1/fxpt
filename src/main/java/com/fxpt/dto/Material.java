@@ -12,6 +12,7 @@ public class Material extends BaseDTO {
     private String name;
     private String imgpath;
     private Integer flag;
+    private Integer typeid;
     private Date cdate;
     private String ccdate;
     private String username;
@@ -77,5 +78,13 @@ public class Material extends BaseDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
     }
 }
