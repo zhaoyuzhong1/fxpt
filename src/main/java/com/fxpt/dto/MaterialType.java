@@ -6,6 +6,7 @@ package com.fxpt.dto;
 public class MaterialType extends BaseDTO {
     private Integer id;
     private String name;
+    private String flag;
 
     public Integer getId() {
         return id;
@@ -21,5 +22,13 @@ public class MaterialType extends BaseDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }
