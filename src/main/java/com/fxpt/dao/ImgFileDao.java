@@ -38,6 +38,13 @@ public class ImgFileDao {
     }
 
 
+    public ImgFile getImgFileById(int id) {
+        String sql="SELECT * from t_imgfile where id=?";
+
+        return baseDao.queryForObject(sql,ImgFile.class,new Object[]{id});
+    }
+
+
 
     public int updateZx() {
         String sql="update t_imgfile set flag='1' where flag='0'";
