@@ -171,13 +171,18 @@ public class FileController {
 			User emp1 = (User) request.getSession().getAttribute("empSession");
 			logUtil.addLog("查看首页图片",emp1.getId(),emp1.getName());
 			ImgFile img = imgFileDao.getImgFileById(id);
-			map.put("name",img.getName());
-			String src=img.getImgpath();
-			//src=src.substring(src.indexOf("app\\")+4);
-			map.put("src",src);
-			map.put("message","ok");
+			if(img!=null) {
+				map.put("name", img.getName());
+				String src = img.getImgpath();
+				//src=src.substring(src.indexOf("app\\")+4);
+				map.put("src", src);
+				map.put("message", "ok");
+			}else{
+				map.put("message","error");
+			}
 
 		}catch (Exception e){
+			e.printStackTrace();
 			map.put("message","error");
 			return map;
 		}
