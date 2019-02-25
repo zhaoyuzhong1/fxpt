@@ -87,7 +87,7 @@ public class FileController {
 			}
 			ImgFile img = new ImgFile();
 			img.setName(name);
-			img.setImgpath(basePath+filename);
+			img.setImgpath(filename);
 			img.setCuser(emp1.getId());
 			imgFileDao.addImgFile(img);
 		} catch (Exception e) {
