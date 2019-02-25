@@ -278,10 +278,7 @@
                     }, {
                         field: 'rolename',
                         title: '角色'
-                    }, {
-                        field: 'pname',
-                        title: '邀请人'
-                    }, {
+                    },  {
                         field: 'cdate',
                         title: '注册时间',
                         formatter: function(value,row,index){
