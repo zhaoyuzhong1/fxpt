@@ -8,6 +8,7 @@ public class Role extends BaseDTO {
     private String name;
     private String type;
     private double price;
+    private String parm;
 
     public double getPrice() {
         return price;
@@ -39,5 +40,13 @@ public class Role extends BaseDTO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getParm() {
+        return parm;
+    }
+
+    public void setParm(String parm) {
+        this.parm = parm;
     }
 }
