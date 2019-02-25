@@ -118,7 +118,7 @@ public class ImageRemarksController {
 			Material material=new Material();
 			material.setName(name);
 			material.setTypeid(Integer.parseInt(typeid));
-			material.setImgpath(basePath + filename);
+			material.setImgpath(filename);
 			material.setCuser(emp1.getId());
 			materialDao.addMaterial(material);
 		} catch (Exception e) {
