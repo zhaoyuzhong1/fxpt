@@ -256,7 +256,7 @@
             }else {
                 if(d.message=="ok"){
                     $("#name1").text(d.name);
-                    var src=d.src;
+                    var src=${ctx}+"/img_material/"+d.src;
               /*      var fr = new FileReader();
                     var $img = $('.index-bd .bd .img-wrap img').eq(0);
                     var imgUrl = fr.readAsDataURL(new Blob(['@ViewBag.path'], { type: "text/plain" }));
