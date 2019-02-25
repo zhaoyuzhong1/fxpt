@@ -16,7 +16,7 @@ public class RoleDao {
     BaseDao baseDao;
 
     public List<Role> getList(){
-        String sql = "select * from t_role where type!='admin' order by id asc";
+        String sql = "select * from t_role order by id asc";
         return baseDao.query(sql,Role.class,new Object[]{});
     }
 }
