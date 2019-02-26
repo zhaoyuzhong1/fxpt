@@ -27,8 +27,13 @@ public class MaterialTypeDao {
 
     //未审核列表
     public Page<MaterialType> getList(String search_name,Integer pagesize, Integer count) {
-        String sql = "select * from t_material_type where name like ? ";
-        return baseDao.queryByPage(sql,MaterialType.class,new Object[]{"%"+search_name+"%"},pagesize,count);
+        if(search_name!=null && !search_name.equals("")) {
+            String sql = "select * from t_material_type where name like ? and flag='0'";
+            return baseDao.queryByPage(sql, MaterialType.class, new Object[]{"%" + search_name + "%"}, pagesize, count);
+        }else{
+            String sql = "select * from t_material_type where flag='0'";
+            return baseDao.queryByPage(sql, MaterialType.class, new Object[]{}, pagesize, count);
+        }
     }
 
 
