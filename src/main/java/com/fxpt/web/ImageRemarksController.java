@@ -54,6 +54,18 @@ public class ImageRemarksController {
 		return "imgRemark/imgremark";
 	}
 
+
+    //跳转素材类型管理
+    @RequestMapping(value = "/typeindex")
+    public String typeindex(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
+        User emp1 = (User) request.getSession().getAttribute("empSession");
+        logUtil.addLog("访问素材类型管理",emp1.getId(),emp1.getName());
+        model.addAttribute("menuUtil", menuUtil);
+        return "imgRemark/type";
+    }
+
+
+
 	//图片列表
 	@ResponseBody
 	@RequestMapping(value = "/getImgList")
