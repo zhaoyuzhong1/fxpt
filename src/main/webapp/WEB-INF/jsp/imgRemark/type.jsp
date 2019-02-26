@@ -213,7 +213,7 @@
             return false;
         }
 
-        $.post("${ctx}/imgRemark/addType",{name:name.trim()},function (d) {
+        $.post("${ctx}/imgMaterial/addType",{name:name.trim()},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
@@ -234,7 +234,7 @@
     }
 
     //打开修改模态框
-    function updateGoods(id,name) {
+    function updateType(id,name) {
         $('#allid').val(id);
         $('#name').val(name);
 
@@ -257,7 +257,7 @@
             return false;
         }
 
-        $.post("${ctx}/imgRemark/updateType",{id:id,name:name.trim()},function (d) {
+        $.post("${ctx}/imgMaterial/updateType",{id:id,name:name.trim()},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
@@ -289,7 +289,7 @@
     function deleteType(id) {
         Showbo.Msg.confirm('确定要删除吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/imgRemark/deleteType",{id:id},function (d) {
+                $.post("${ctx}/imgMaterial/deleteType",{id:id},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
