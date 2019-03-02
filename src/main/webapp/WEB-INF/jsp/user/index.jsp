@@ -305,7 +305,7 @@
                             var e =  '<button type="button" class="btn btn-default btn-maincolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> '+
                                     '<span class="caret"></span>'+
                                     '</button>'+
-                                    '<ul class="dropdown-menu dropdown-menu-right">'+
+                                    '<ul class="dropdown-menu dropdown-menu-right">';
 
                             var sh = '';
                             if(row.flag=='0'){
@@ -313,7 +313,7 @@
                                         '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="btg(\''+row.id+'\')" style="color:red"> 审核不通过</button></li>';
                             }
 
-                            var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>'+
+                            var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>';
 
 
 
