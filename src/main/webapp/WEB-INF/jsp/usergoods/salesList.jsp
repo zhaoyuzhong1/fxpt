@@ -101,7 +101,7 @@
                         title: '销售总价'
                     }, {
                         field: 'money',
-                        title: '分配奖金',
+                        title: '分配收入',
                         formatter: function(value,row,index){
                             return "  <input type='text' value='"+value+"' id='money"+row.userid+"'>";
                         }
