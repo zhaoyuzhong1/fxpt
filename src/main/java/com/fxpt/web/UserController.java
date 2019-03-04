@@ -57,13 +57,42 @@ public class UserController {
     @RequestMapping(value = "/deluser")
     public String deluser(int id,String del) {
 	    try{
-            Integer i=userDao.updateDelById(id,del);
+            Integer i=userDao.updateFlag(id,del);
             return "ok";
         }catch (Exception e){
 	        e.printStackTrace();
             return "nook";
         }
     }
+
+
+	//修改
+	@ResponseBody
+	@RequestMapping(value = "/tg")
+	public String tg(int id) {
+		try{
+			Integer i=userDao.updateFlag(id,"1");
+			return "ok";
+		}catch (Exception e){
+			e.printStackTrace();
+			return "nook";
+		}
+	}
+
+
+
+	//修改
+	@ResponseBody
+	@RequestMapping(value = "/btg")
+	public String btg(int id) {
+		try{
+			Integer i=userDao.updateFlag(id,"2");
+			return "ok";
+		}catch (Exception e){
+			e.printStackTrace();
+			return "nook";
+		}
+	}
 
 
 }
