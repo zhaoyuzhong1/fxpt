@@ -41,7 +41,12 @@ public class ImgFileDao {
     public ImgFile getImgFileById(int id) {
         String sql="SELECT * from t_imgfile where id=?";
 
-        return baseDao.queryForObject(sql,ImgFile.class,new Object[]{id});
+        List<ImgFile> ifs = baseDao.query(sql,ImgFile.class,new Object[]{id});
+        if(ifs.size()>0){
+            return ifs.get(0);
+        }else{
+            return null;
+        }
     }
 
 

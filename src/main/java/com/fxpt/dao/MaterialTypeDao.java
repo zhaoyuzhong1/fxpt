@@ -20,15 +20,20 @@ public class MaterialTypeDao {
 
     //添加素材
     public Integer addMaterialType(MaterialType material){
-        String sql =" insert into t_material_type (name) values(:name)";
+        String sql =" insert into t_material_type (name,flag) values(:name,:flag)";
         return baseDao.insert(sql,material);
     }
 
 
     //未审核列表
     public Page<MaterialType> getList(String search_name,Integer pagesize, Integer count) {
-        String sql = "select * from t_material_type where name like ? ";
-        return baseDao.queryByPage(sql,MaterialType.class,new Object[]{"%"+search_name+"%"},pagesize,count);
+        if(search_name!=null && !search_name.equals("")) {
+            String sql = "select * from t_material_type where name like ? and flag='0'";
+            return baseDao.queryByPage(sql, MaterialType.class, new Object[]{"%" + search_name + "%"}, pagesize, count);
+        }else{
+            String sql = "select * from t_material_type where flag='0'";
+            return baseDao.queryByPage(sql, MaterialType.class, new Object[]{}, pagesize, count);
+        }
     }
 
 
@@ -46,9 +51,16 @@ public class MaterialTypeDao {
 
 
     //删除素材
-    public Integer zxMaterialType(Integer id){
+    public Integer zxMaterialType(String id){
         String sql = "update t_material_type set flag='1' where id=?";
         return baseDao.update2(sql,new Object[]{id});
+    }
+
+
+
+    public Integer updateType(String id,String name){
+        String sql = "update t_material_type set name=? where id=?";
+        return baseDao.update2(sql,new Object[]{name,id});
     }
 
 

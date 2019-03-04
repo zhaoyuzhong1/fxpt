@@ -54,6 +54,18 @@ public class ImageRemarksController {
 		return "imgRemark/imgremark";
 	}
 
+
+    //跳转素材类型管理
+    @RequestMapping(value = "/typeindex")
+    public String typeindex(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
+        User emp1 = (User) request.getSession().getAttribute("empSession");
+        logUtil.addLog("访问素材类型管理",emp1.getId(),emp1.getName());
+        model.addAttribute("menuUtil", menuUtil);
+        return "imgRemark/type";
+    }
+
+
+
 	//图片列表
 	@ResponseBody
 	@RequestMapping(value = "/getImgList")
@@ -70,6 +82,27 @@ public class ImageRemarksController {
 
 		return map;
 	}
+
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "/queryTypeList")
+	public Map<String, Object> queryTypeList(String name,Integer pagesize, Integer count) {
+		Map<String, Object> map = new HashMap<>();
+		try{
+			Page<MaterialType> pageList =materialTypeDao.getList(name, pagesize, count) ;
+			map.put("rows", pageList.getResult());
+			map.put("total", pageList.getTotalCount());
+		}catch (Exception e){
+			map.put("message","error");
+			return map;
+		}
+
+		return map;
+	}
+
+
 
 	//跳转到添加jsp
     //首页跳转
@@ -170,6 +203,52 @@ public class ImageRemarksController {
 			return message;
 		}
 		return message;
+	}
+
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "/addType")
+	public String addType(String name){
+		MaterialType mt = new MaterialType();
+		mt.setName(name);
+		mt.setFlag("0");
+		int flag = materialTypeDao.addMaterialType(mt);
+		if(flag>0){
+			return "ok";
+		}else {
+			return "nook";
+		}
+	}
+
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "/updateType")
+	public String updateType(String id,String name){
+
+		int flag = materialTypeDao.updateType(id,name);
+		if(flag==0){
+			return "ok";
+		}else {
+			return "nook";
+		}
+	}
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "/deleteType")
+	public String deleteType(String id){
+
+		int flag = materialTypeDao.zxMaterialType(id);
+		if(flag==0){
+			return "ok";
+		}else {
+			return "nook";
+		}
 	}
 
 
