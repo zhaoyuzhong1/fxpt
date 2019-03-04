@@ -232,11 +232,13 @@
     }
 
     $(function () {
+        console.log('2222')
         var dtb1 = new DataTable1();
         dtb1.Init();
     });
 
     var DataTable1 = function (){
+        console.log('111111')
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
@@ -286,7 +288,7 @@
                         }
                     }, {
                         field: 'flag',
-                        title: '状态',
+                        title: '审核状态',
                         formatter: function(value,row,index){
                             if("0"==value){
                                 return "未审核";
@@ -294,6 +296,8 @@
                                 return "已审核";
                             } else if("2"==value){
                                 return "未通过";
+                            }else if("3"==value){
+                                return "已注销";
                             }
                         }
                     },{
@@ -314,10 +318,17 @@
                             }
 
                             var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>';
+                            var del='';
+                            if(row.flag=='1'){
+                                del='<li style="float: none;"><button  class="btn btn-link "onclick="deluser(\''+row.id+'\')"> 注销</button></li>';
+                            }
+
+                            if(row.flag=='3'){
+                                del='<li style="float: none;"><button  class="btn btn-link "onclick="udeluser(\''+row.id+'\')"> 恢复</button></li>';
+                            }
 
 
-
-                            return button +e + sh+updategz+ '</ul></div>';
+                            return button +e + sh+ del+'</ul></div>';
 
                         }
                     }
@@ -404,6 +415,46 @@
         });
     }
 
+    function deluser(id) {
+        console.log("id是"+id);
+        $.post("${ctx}/user/deluser",{id:id,del:3},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d=="ok"){
+                    Showbo.Msg.alert('注销成功');
+                    $('#teacher_table').bootstrapTable('refresh');
+                }else {
+                    Showbo.Msg.alert('注销失败');
+                }
+            }
+
+        });
+    }
+
+    function udeluser(id) {
+        $.post("${ctx}/user/deluser",{id:id,del:1},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d=="ok"){
+                    Showbo.Msg.alert('恢复成功');
+                    $('#teacher_table').bootstrapTable('refresh');
+                }else {
+                    Showbo.Msg.alert('恢复失败');
+                }
+            }
+
+        });
+    }
 
 
     function btg(id) {

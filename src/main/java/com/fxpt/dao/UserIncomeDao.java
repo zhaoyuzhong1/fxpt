@@ -49,6 +49,13 @@ public class UserIncomeDao {
         String sql ="update t_user_income set money=?,reward=?,totalp=?,flag=?,applydate=? where id=?";
         return baseDao.update2(sql,new Object[]{money,reward,totalp,flag,new Date(),id});
     }
+
+
+    //根据用户id修改工资
+    public Integer updateMoneyById(Integer id,BigDecimal money){
+        String sql ="update t_user_income set money=?,totalp=? where id=?";
+        return baseDao.update2(sql,new Object[]{money,money,id});
+    }
     //新增一条记录
     public Integer addUserIncome(UserIncome userIncome){
         String sql =" insert into t_user_income (userid,username,mobile,yearm,money,reward,totalp,cdate,cuser,flag) values(:userid,:username,:mobile,:yearm,:money,:reward,:totalp,now(),:cuser,:flag)";

@@ -30,6 +30,17 @@ public class UserGoodsDao {
         return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
     }
 
+    //查询查询销售业绩前10名用户
+    public Page<UserGoods> getListTen(String now,String date) {
+      String sql="SELECT tug.*,SUM(tug.buynum) AS totalsnum,SUM(tug.totalprice) AS totalsprice ,IFNULL(tui.money,0) AS money FROM t_user_goods tug\n" +
+              "LEFT JOIN (SELECT * FROM t_user_income WHERE yearm=?) tui ON tug.userid=tui.userid\n" +
+              "WHERE (tug.flag=2 OR tug.flag=3)\n" +
+              "AND tug.qrdate>?\n" +
+              " GROUP BY tug.userid \n" +
+              " ORDER BY totalsprice DESC";
+        return baseDao.queryByPage(sql,UserGoods.class,new Object[]{now,date},0,10);
+
+    }
 
 
     //查询所有用户销售货品列表，查询所有已付款的数据
