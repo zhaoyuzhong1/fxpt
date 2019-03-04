@@ -319,9 +319,11 @@
 
                             var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>';
                             var del='';
-                            if(row.del=='0'){
+                            if(row.flag=='1'){
                                 del='<li style="float: none;"><button  class="btn btn-link "onclick="deluser(\''+row.id+'\')"> 注销</button></li>';
-                            }else{
+                            }
+
+                            if(row.flag=='3'){
                                 del='<li style="float: none;"><button  class="btn btn-link "onclick="udeluser(\''+row.id+'\')"> 恢复</button></li>';
                             }
 
@@ -415,7 +417,7 @@
 
     function deluser(id) {
         console.log("id是"+id);
-        $.post("${ctx}/user/deluser",{id:id,del:1},function (d) {
+        $.post("${ctx}/user/deluser",{id:id,del:3},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
@@ -435,7 +437,7 @@
     }
 
     function udeluser(id) {
-        $.post("${ctx}/user/deluser",{id:id,del:0},function (d) {
+        $.post("${ctx}/user/deluser",{id:id,del:1},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
