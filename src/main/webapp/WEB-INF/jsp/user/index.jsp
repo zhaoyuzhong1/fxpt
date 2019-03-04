@@ -288,7 +288,7 @@
                         }
                     }, {
                         field: 'flag',
-                        title: '状态',
+                        title: '审核状态',
                         formatter: function(value,row,index){
                             if("0"==value){
                                 return "未审核";
@@ -296,6 +296,8 @@
                                 return "已审核";
                             } else if("2"==value){
                                 return "未通过";
+                            }else if("3"==value){
+                                return "已注销";
                             }
                         }
                     },{
@@ -324,7 +326,7 @@
                             }
 
 
-                            return button +e + sh+updategz+ del+'</ul></div>';
+                            return button +e + sh+ del+'</ul></div>';
 
                         }
                     }
