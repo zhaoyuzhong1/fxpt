@@ -162,6 +162,9 @@
                         formatter: function(value,row,index){
                             return Number(row.count+index)+1;
                         }
+                    },{
+                        field: 'typename',
+                        title: '素材类型'
                     }
                     ,{
                         field: 'name',
