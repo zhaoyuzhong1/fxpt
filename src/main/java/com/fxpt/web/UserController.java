@@ -52,5 +52,18 @@ public class UserController {
 		return map;
 	}
 
-	
+    //修改
+    @ResponseBody
+    @RequestMapping(value = "/deluser")
+    public String deluser(int id,String del) {
+	    try{
+            Integer i=userDao.updateDelById(id,del);
+            return "ok";
+        }catch (Exception e){
+	        e.printStackTrace();
+            return "nook";
+        }
+    }
+
+
 }

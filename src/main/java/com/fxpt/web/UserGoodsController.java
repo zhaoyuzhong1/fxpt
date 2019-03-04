@@ -1,10 +1,13 @@
 package com.fxpt.web;
 
 import com.fxpt.dao.GoodsDao;
+import com.fxpt.dao.UserDao;
 import com.fxpt.dao.UserGoodsDao;
+import com.fxpt.dao.UserIncomeDao;
 import com.fxpt.dto.Goods;
 import com.fxpt.dto.User;
 import com.fxpt.dto.UserGoods;
+import com.fxpt.dto.UserIncome;
 import com.fxpt.util.LogUtil;
 import com.fxpt.util.MenuUtil;
 import com.fxpt.util.Page;
@@ -16,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +33,11 @@ public class UserGoodsController {
 	LogUtil logUtil;
 	@Autowired
 	UserGoodsDao userGoodsDao;
+	@Autowired
+	UserIncomeDao userIncomeDao;
+	@Autowired
+	UserDao userDao;
+
 	//首页跳转
 	@RequestMapping(value = "/index")
 	public String index(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
@@ -54,6 +66,71 @@ public class UserGoodsController {
 		logUtil.addLog("访问购买商品已发货管理",emp1.getId(),emp1.getName());
 		model.addAttribute("menuUtil", menuUtil);
 		return "usergoods/yfhindex";
+	}
+
+
+	@RequestMapping(value = "/yfhindex1")
+	public String salesList(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
+
+		User emp1 = (User) request.getSession().getAttribute("empSession");
+		logUtil.addLog("访问销售排行榜",emp1.getId(),emp1.getName());
+		model.addAttribute("menuUtil", menuUtil);
+		return "usergoods/salesList";
+	}
+
+	//列表
+	@ResponseBody
+	@RequestMapping(value = "/querysalesList")
+	public Map<String, Object> querysalesList() {
+		Map<String, Object> map = new HashMap<>();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM");
+		Calendar c = Calendar.getInstance();
+		Date date=new Date();
+		String now=format1.format(date);
+		//过去90天
+		c.setTime(date);
+		c.add(Calendar.DATE, - 90);
+		Date d = c.getTime();
+		String day = format.format(d);
+		Page<UserGoods> pageList = userGoodsDao.getListTen(now,day);
+		map.put("rows", pageList.getResult());
+		map.put("total", pageList.getTotalCount());
+		return map;
+	}
+
+	//修改
+	@ResponseBody
+	@RequestMapping(value = "/updateIncome")
+	public String updateIncome(Integer userid,String money) {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM");
+		Date date=new Date();
+		String now=format1.format(date);
+		UserIncome userIncome=userIncomeDao.selectUserIncomeByIdAndyearm(userid,now);
+
+		try{
+			BigDecimal imoney =new BigDecimal(Double.parseDouble(money));
+			if(userIncome==null){
+				UserIncome u=new UserIncome();
+				User user=userDao.selectUserById(userid);
+				u.setUserid(userid);
+				u.setUsername(user.getName());
+				u.setMobile(user.getMobile());
+				u.setFlag("0");
+				u.setYearm(now);
+				u.setMoney(imoney);
+				u.setTotalp(imoney);
+				u.setCuser(1);
+				userIncomeDao.addUserIncome(u);
+
+			}else{
+				userIncomeDao.updateMoneyById(userIncome.getId(),imoney);
+			}
+		}catch (Exception e){
+			return  "nook";
+		}
+
+		return  "ok";
 	}
 
 	//列表
