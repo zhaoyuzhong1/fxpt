@@ -232,11 +232,13 @@
     }
 
     $(function () {
+        console.log('2222')
         var dtb1 = new DataTable1();
         dtb1.Init();
     });
 
     var DataTable1 = function (){
+        console.log('111111')
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
@@ -305,7 +307,7 @@
                             var e =  '<button type="button" class="btn btn-default btn-maincolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> '+
                                     '<span class="caret"></span>'+
                                     '</button>'+
-                                    '<ul class="dropdown-menu dropdown-menu-right">'+
+                                    '<ul class="dropdown-menu dropdown-menu-right">';
 
                             var sh = '';
                             if(row.flag=='0'){
@@ -313,11 +315,16 @@
                                         '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="btg(\''+row.id+'\')" style="color:red"> 审核不通过</button></li>';
                             }
 
-                            var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>'+
+                            var  updategz = '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGz(\''+ row.id + '\',\''+ row.name + '\',\''+ row.mobile + '\')">添加工资</button></li>';
+                            var del='';
+                            if(row.del=='0'){
+                                del='<li style="float: none;"><button  class="btn btn-link "onclick="deluser(\''+row.id+'\')"> 注销</button></li>';
+                            }else{
+                                del='<li style="float: none;"><button  class="btn btn-link "onclick="udeluser(\''+row.id+'\')"> 恢复</button></li>';
+                            }
 
 
-
-                            return button +e + sh+updategz+ '</ul></div>';
+                            return button +e + sh+updategz+ del+'</ul></div>';
 
                         }
                     }
@@ -404,6 +411,46 @@
         });
     }
 
+    function deluser(id) {
+        console.log("id是"+id);
+        $.post("${ctx}/user/deluser",{id:id,del:1},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d=="ok"){
+                    Showbo.Msg.alert('注销成功');
+                    $('#teacher_table').bootstrapTable('refresh');
+                }else {
+                    Showbo.Msg.alert('注销失败');
+                }
+            }
+
+        });
+    }
+
+    function udeluser(id) {
+        $.post("${ctx}/user/deluser",{id:id,del:0},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d=="ok"){
+                    Showbo.Msg.alert('恢复成功');
+                    $('#teacher_table').bootstrapTable('refresh');
+                }else {
+                    Showbo.Msg.alert('恢复失败');
+                }
+            }
+
+        });
+    }
 
 
     function btg(id) {
