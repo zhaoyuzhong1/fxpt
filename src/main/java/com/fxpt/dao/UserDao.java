@@ -64,4 +64,10 @@ public class UserDao {
         String sql ="update t_user set money=? where id=?";
         return baseDao.update2(sql,new Object[]{bigDecimal,id});
     }
+
+    //根据id修改用户
+    public Integer updateDelById(Integer id,String del){
+        String sql ="update t_user set del=? where id=?";
+        return baseDao.update2(sql,new Object[]{del,id});
+    }
 }
