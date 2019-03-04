@@ -27,6 +27,9 @@ public class UserGoods extends BaseDTO {
     private Date qrdate;
     private Date fhdate;
     private String flag;
+    private int totalsnum;
+    private double totalsprice;
+    private double money;
 
     public int getId() {
         return id;
@@ -194,5 +197,29 @@ public class UserGoods extends BaseDTO {
 
     public void setFhdate(Date fhdate) {
         this.fhdate = fhdate;
+    }
+
+    public int getTotalsnum() {
+        return totalsnum;
+    }
+
+    public void setTotalsnum(int totalsnum) {
+        this.totalsnum = totalsnum;
+    }
+
+    public double getTotalsprice() {
+        return totalsprice;
+    }
+
+    public void setTotalsprice(double totalsprice) {
+        this.totalsprice = totalsprice;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 }

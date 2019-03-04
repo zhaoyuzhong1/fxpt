@@ -34,6 +34,7 @@ public class User extends BaseDTO {
     private BigDecimal totalsalary;
     private String applydate;
     private Integer tuiid;
+    private String del;
     public Integer getId() {
         return id;
     }
@@ -248,5 +249,13 @@ public class User extends BaseDTO {
 
     public void setTuiid(Integer tuiid) {
         this.tuiid = tuiid;
+    }
+
+    public String getDel() {
+        return del;
+    }
+
+    public void setDel(String del) {
+        this.del = del;
     }
 }
