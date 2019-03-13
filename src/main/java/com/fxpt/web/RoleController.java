@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "ug")
+@RequestMapping(value = "role")
 public class RoleController {
 	@Autowired
 	LogUtil logUtil;
