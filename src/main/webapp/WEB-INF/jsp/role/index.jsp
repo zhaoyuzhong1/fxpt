@@ -28,7 +28,10 @@
                         <i class="fa fa-th-list" style="margin-right: 5px"></i>级别管理
                     </h3>
                 </div>
+                <div class="panel-body" >
 
+                    <table id="teacher_table" data-page-size="5"> </table>
+                </div>
             </section>
         </div>
     </div>
@@ -56,7 +59,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-3"><font color="red" >*</font> 升级金额：</label>
                         <div class="col-sm-7">
-                            <input id="price" maxlength="20" type="text" class="form-control" readonly>
+                            <input id="price" maxlength="20" type="text" class="form-control">
                         </div>
                     </div>
 
@@ -90,9 +93,6 @@
 <!-- main content end-->
 </body>
 <script>
-    //搜索
-    function gosearch() {$('#teacher_table').bootstrapTable('refreshOptions',{pageNumber:1,pagesize:5});}
-
 
     $(function () {
 
