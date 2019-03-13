@@ -99,7 +99,7 @@
                         }
                     }
                     ,{
-                        field: 'name',
+                        field: 'username',
                         title: '姓名'
                     },{
                         field: 'mobile',
