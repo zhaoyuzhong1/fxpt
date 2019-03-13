@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/WeChar")
+@RequestMapping("/site")
 public class SiteInController {
 
     @Autowired
@@ -21,9 +21,9 @@ public class SiteInController {
     /**
      * @return 页面跳转管理
      */
-    @RequestMapping("/webSiteIn")
+    @RequestMapping("/index")
     public String webSiteInIndex(){
-        return "/siteIn/index";
+        return "siteIn/index";
     }
 
     /**
@@ -34,8 +34,8 @@ public class SiteInController {
      * @return 查询结果集
      */
     @ResponseBody
-    @RequestMapping("/siteInData")
-    public Map<String, Object> siteInData(String search_name, Integer pagesize, Integer count){
+    @RequestMapping("/queryList")
+    public Map<String, Object> queryList(String search_name, Integer pagesize, Integer count){
         Map<String, Object> map = new HashMap<>();
         Page<SiteIn> pageList = siteInDao.querySiteIn(pagesize,count,search_name);
         map.put("rows", pageList.getResult());
