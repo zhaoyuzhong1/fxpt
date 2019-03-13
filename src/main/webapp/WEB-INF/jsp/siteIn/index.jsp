@@ -54,7 +54,7 @@
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
-                url: "${ctx}/WeChar/siteInData",
+                url: "${ctx}/site/queryList",
                 method: 'get',
                 striped: true,
                 cache: false,
@@ -86,27 +86,14 @@
                         field: 'name',
                         align: 'center',
                         title: '用户姓名'
-                    },{
-                        field: 'idCard',
-                        align: 'center',
-                        title: '身份证号'
                     }, {
                         field: 'mobile',
                         align: 'center',
                         title: '用户手机'
                     }, {
-                        field: 'createDateStr',
+                        field: 'cdate',
                         align: 'center',
                         title: '签到时间'
-                    },{
-                        title: '客户头像',
-                        field: 'headPath',
-                        width: '200px',
-                        formatter: function(value,row,index){
-                            var button ='<div class="btn-group btn-group-xs">'+
-                                '<img src="'+value+'"/>';
-                            return button + '</div>';
-                        }
                     }
                 ]
             });
