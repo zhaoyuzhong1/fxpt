@@ -45,6 +45,12 @@
 
 </body>
 <script>
+    $(function () {
+        var dtb1 = new DataTable1();
+        dtb1.Init();
+    });
+
+
     //搜索
     function goSearch() {
         $('#teacher_table').bootstrapTable('refreshOptions',{pageNumber:1,pagesize:5});
@@ -93,7 +99,10 @@
                     }, {
                         field: 'cdate',
                         align: 'center',
-                        title: '签到时间'
+                        title: '签到时间',
+                        formatter: function(value,row,index){
+                            return getTime(value)
+                        }
                     }
                 ]
             });
@@ -109,9 +118,21 @@
         };
         return oTableInit;
     }
-    $(function () {
-        var dtb1 = new DataTable1();
-        dtb1.Init();
-    });
+
+
+
+    function getTime(timestamp) {
+        var ts = arguments[0] || 0;
+        var t,y,m,d,h,i,s;
+        t = ts ? new Date(parseInt(ts)) : new Date();
+        y = t.getFullYear();
+        m = t.getMonth()+1;
+        d = t.getDate();
+        h = t.getHours();
+        i = t.getMinutes();
+        s = t.getSeconds();
+        // 可根据需要在这里定义时间格式
+        return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
+    }
 </script>
 </html>
