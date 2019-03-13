@@ -32,10 +32,14 @@ public class SiteInDao {
      * @return 签到信息列表
      */
     public <T extends BaseDTO> Page<SiteIn> querySiteIn(Integer pageSize, Integer count,String keyWord){
-        StringBuffer sqlBuffer = new StringBuffer("SELECT\n\tu.`name`,\n\tu.id,\n\tu.headpath,\n\tu.idcard,\n");
-        sqlBuffer.append("\tu.mobile,\n\ttsi.create_date\nFROM\n\tt_user u\n INNER JOIN t_site_in tsi ");
-        sqlBuffer.append("ON u.openid = tsi.openId WHERE CONCAT(u.`name`,u.mobile) LIKE '%");
-        sqlBuffer.append(keyWord).append("%'");
-        return baseDao.queryByPage(sqlBuffer.toString(), SiteIn.class,null, pageSize, count);
+        String sql = "select * from t_site_in ";
+        if(keyWord!=null && !keyWord.equals("")){
+            sql = sql + " where name like ? or mobile like ? order by cdate desc";
+            return baseDao.queryByPage(sql, SiteIn.class,new Object[]{"%"+keyWord+"%","%"+keyWord+"%"}, pageSize, count);
+        }else{
+            sql = sql + " order by cdate desc";
+            return baseDao.queryByPage(sql, SiteIn.class,new Object[]{}, pageSize, count);
+        }
+
     }
 }
