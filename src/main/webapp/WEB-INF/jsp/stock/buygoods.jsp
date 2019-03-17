@@ -25,7 +25,7 @@
                 <section class="panel">
                     <div class="page-heading">
                         <h3 class="panel-title">
-                            <i class="fa fa-th-list" style="margin-right: 5px"></i>购买库存管理
+                            <i class="fa fa-th-list" style="margin-right: 5px"></i>库存购买管理
                         </h3>
                     </div>
                     <div class="panel-body" >
