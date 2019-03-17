@@ -2,6 +2,7 @@ package com.fxpt.service;
 
 import com.fxpt.dao.CashDao;
 import com.fxpt.dao.ImgFileDao;
+import com.fxpt.dao.UpGradeDao;
 import com.fxpt.dao.UserDao;
 import com.fxpt.dto.Cash;
 import com.fxpt.dto.User;
@@ -27,6 +28,8 @@ public class InterService {
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    UpGradeDao upGradeDao;
 
 
 
@@ -34,6 +37,15 @@ public class InterService {
     public void qyImg(int id){
         imgFileDao.updateZx();
         imgFileDao.updateQy(id);
+    }
+
+
+    //升级审核通过
+    @Transactional
+    public int tg(int id,int userid,int uproleid){
+        int i = upGradeDao.updUpGrade(id,"1");
+        int k = userDao.updateRole(userid,uproleid);
+        return i+k;
     }
 
 
