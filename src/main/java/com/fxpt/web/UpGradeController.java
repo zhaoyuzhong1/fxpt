@@ -72,7 +72,7 @@ public class UpGradeController {
     @RequestMapping("/tg")
     public String tg(int id,int userid,int uproleid){
         String result = "ok";
-        
+
         int k = interService.tg(id, userid, uproleid);
         if(k>0) result = "nook";
 
