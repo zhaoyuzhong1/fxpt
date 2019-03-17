@@ -13,6 +13,7 @@ public class UpGrade extends BaseDTO {
     private Integer uproleid;
     private String uprolename;
     private double totalprice;
+    private String username;
     private Date cdate;
     private String flag;
 
@@ -86,5 +87,13 @@ public class UpGrade extends BaseDTO {
 
     public void setTotalprice(double totalprice) {
         this.totalprice = totalprice;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
