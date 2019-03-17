@@ -25,7 +25,7 @@
             <section class="panel">
                 <div class="page-heading">
                     <h3 class="panel-title">
-                        <i class="fa fa-th-list" style="margin-right: 5px"></i>提货库存管理
+                        <i class="fa fa-th-list" style="margin-right: 5px"></i>库存提货管理
                     </h3>
                 </div>
                 <div class="panel-body" >
@@ -69,7 +69,6 @@
     });
 
     var DataTable1 = function (){
-        console.log("进入getlist");
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
