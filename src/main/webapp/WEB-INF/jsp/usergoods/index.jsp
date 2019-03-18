@@ -230,9 +230,9 @@
                     Showbo.Msg.alert('订单展示错误');
                     //$('#model').modal('hide');
                 }else{
-                    var obj = d.parseJSON();
+                    var obj = JSON.parse(d);
                     var rolename = obj.rolename;
-                    alert(obj.list.length);
+
 
 
                     $('#model').modal();
