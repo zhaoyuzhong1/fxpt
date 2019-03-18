@@ -59,14 +59,14 @@
 
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 用户姓名：</label>
+                        <label class="control-label col-sm-3">用户姓名：</label>
                         <div class="col-sm-7">
                             <input id="username" maxlength="20" type="text" class="form-control" readonly>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 手机号码：</label>
+                        <label class="control-label col-sm-3">手机号码：</label>
                         <div class="col-sm-7">
                             <input id="mobile" maxlength="20" type="text" class="form-control" readonly>
                         </div>
@@ -74,16 +74,14 @@
 
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 本月收入：</label>
-                        <div class="col-sm-7">
-                            <input id="money" maxlength="20" type="text" class="form-control">
+                        <label class="control-label col-sm-3">所属级别：</label>
+                        <div class="col-sm-7" id="rolename">
                         </div>
                     </div>
 
-
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 工资记录：</label>
-                        <div class="col-sm-7" id="uiflag1">
+                        <label class="control-label col-sm-3">购买详情：</label>
+                        <div class="col-sm-7" id="info">
                         </div>
                     </div>
 
@@ -232,9 +230,15 @@
                 }else{
                     var obj = JSON.parse(d);
                     var rolename = obj.rolename;
+                    var mobile = obj.mobile;
+                    $("#mobile").val(mobile);
+                    $("#rolename").text(rolename);
+                    var info = "";
+                    for(var i=0;i<obj.list.length;i++){
+                        info = info + "购买产品("+obj.list[i].goodname+"),购买数量("+obj.list[i].buynum+"),购买单价("+obj.list[i].buyprice+"),购买总价("+obj.list[i].total+")。";
+                    }
 
-
-
+                    $("#info").text(info);
                     $('#model').modal();
                 }
 
