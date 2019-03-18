@@ -11,6 +11,8 @@ import com.fxpt.dto.UserIncome;
 import com.fxpt.util.LogUtil;
 import com.fxpt.util.MenuUtil;
 import com.fxpt.util.Page;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "ug")
@@ -138,7 +137,7 @@ public class UserGoodsController {
 	@RequestMapping(value = "/queryList")
 	public Map<String, Object> queryList(String search_name, Integer pagesize, Integer count) {
 		Map<String, Object> map = new HashMap<>();
-		Page<UserGoods> pageList = userGoodsDao.getList(search_name,pagesize, count);
+		Page<UserGoods> pageList = userGoodsDao.getList2(search_name,pagesize, count);
 		map.put("rows", pageList.getResult());
 		map.put("total", pageList.getTotalCount());
 		return map;
@@ -172,11 +171,11 @@ public class UserGoodsController {
 	//修改
 	@ResponseBody
 	@RequestMapping(value = "/updateQr")
-	public String updateQr(int id,HttpServletRequest request) {
+	public String updateQr(String code,HttpServletRequest request) {
 		User emp1 = (User) request.getSession().getAttribute("empSession");
-		logUtil.addLog("确认购买商品已付款("+id+")",emp1.getId(),emp1.getName());
+		logUtil.addLog("确认购买商品已付款("+code+")",emp1.getId(),emp1.getName());
 
-		int exist = userGoodsDao.updateQr(id,"2");
+		int exist = userGoodsDao.updateQr2(code,"2");
 		if(exist == 0){
 			return "ok";
 		}
@@ -187,11 +186,11 @@ public class UserGoodsController {
 
 	@ResponseBody
 	@RequestMapping(value = "/updateFh")
-	public String updateFh(int id,String postcom,String postnum,HttpServletRequest request) {
+	public String updateFh(String code,String postcom,String postnum,HttpServletRequest request) {
 		User emp1 = (User) request.getSession().getAttribute("empSession");
-		logUtil.addLog("确认购买商品可以发货("+id+")",emp1.getId(),emp1.getName());
+		logUtil.addLog("确认购买商品可以发货("+code+")",emp1.getId(),emp1.getName());
 
-		int exist = userGoodsDao.updateFh(id,"3",postcom,postnum);
+		int exist = userGoodsDao.updateFh2(code,"3",postcom,postnum);
 		if(exist == 0){
 			return "ok";
 		}
@@ -201,14 +200,40 @@ public class UserGoodsController {
 	//删除(假)
 	@ResponseBody
 	@RequestMapping(value = "/deleteUG")
-	public String deleteUG(int id,HttpServletRequest request) {
+	public String deleteUG(String code,HttpServletRequest request) {
 		User emp1 = (User) request.getSession().getAttribute("empSession");
-		logUtil.addLog("注销购买商品("+id+")",emp1.getId(),emp1.getName());
-		int exist = userGoodsDao.updateQx(id,"9");
+		logUtil.addLog("注销购买商品("+code+")",emp1.getId(),emp1.getName());
+		int exist = userGoodsDao.updateQx2(code,"9");
 		if(exist != -1) {
 			return "ok";
 		}else {
 			return "nook";
+		}
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/getUgInfoByCode")
+	public String getUgInfoByCode(String code) {
+		JSONObject jo = new JSONObject();
+		List<UserGoods> ugs = userGoodsDao.getUgInfoByCode(code);
+		if(ugs.size()>0) {
+			JSONArray ja = new JSONArray();
+			String rolename = "";
+			for (UserGoods ug : ugs) {
+				JSONObject jo1 = new JSONObject();
+				jo1.put("goodname", ug.getGoodname());
+				jo1.put("buynum", ug.getBuynum());
+				jo1.put("buyprice", ug.getBuyprice());
+				jo1.put("total", ug.getTotalprice());
+				ja.put(jo1);
+				rolename = ug.getRolename();
+			}
+			jo.put("rolename", rolename);
+			jo.put("list", ja);
+			return jo.toString();
+		}else{
+			return "";
 		}
 	}
 }
