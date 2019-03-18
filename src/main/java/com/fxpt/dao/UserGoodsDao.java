@@ -150,10 +150,27 @@ public class UserGoodsDao {
 
     }
 
+    public Integer updateQr2(String code,String flag){
+        String sqlPunish ="update t_user_goods set flag=?,qrdate=now() where code = ? ";
+        Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,code});
+
+        return punishStatus;
+
+    }
+
 
     public Integer updateFh(int id,String flag,String postcom,String postnum){
         String sqlPunish ="update t_user_goods set flag=?,fhdate=now(),postcom=?,postnum=? where id = ? ";
         Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,postcom,postnum,id});
+
+        return punishStatus;
+
+    }
+
+
+    public Integer updateFh2(String code,String flag,String postcom,String postnum){
+        String sqlPunish ="update t_user_goods set flag=?,fhdate=now(),postcom=?,postnum=? where code = ? ";
+        Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,postcom,postnum,code});
 
         return punishStatus;
 
