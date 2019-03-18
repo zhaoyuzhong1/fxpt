@@ -22,6 +22,7 @@ public class UserGoods extends BaseDTO {
     private String postmobile;
     private String postadd;
     private String postcom;
+    private String postnum;
     private String message;
     private double totalprice;
     private Date qrdate;
@@ -221,5 +222,13 @@ public class UserGoods extends BaseDTO {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public String getPostnum() {
+        return postnum;
+    }
+
+    public void setPostnum(String postnum) {
+        this.postnum = postnum;
     }
 }
