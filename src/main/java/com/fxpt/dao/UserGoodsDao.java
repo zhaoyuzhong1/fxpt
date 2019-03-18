@@ -90,9 +90,9 @@ public class UserGoodsDao {
     }
 
 
-    public Integer updateFh(int id,String flag){
-        String sqlPunish ="update t_user_goods set flag=?,fhdate=now() where id = ? ";
-        Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,id});
+    public Integer updateFh(int id,String flag,String postcom,String postnum){
+        String sqlPunish ="update t_user_goods set flag=?,fhdate=now(),postcom=?,postnum=? where id = ? ";
+        Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,postcom,postnum,id});
 
         return punishStatus;
 
