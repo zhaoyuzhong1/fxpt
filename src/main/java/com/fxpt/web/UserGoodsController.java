@@ -221,6 +221,7 @@ public class UserGoodsController {
 			try {
 				JSONArray ja = new JSONArray();
 				String rolename = "";
+				String mobile = "";
 				for (UserGoods ug : ugs) {
 					JSONObject jo1 = new JSONObject();
 					jo1.put("goodname", ug.getGoodname());
@@ -229,8 +230,10 @@ public class UserGoodsController {
 					jo1.put("total", ug.getTotalprice());
 					ja.put(jo1);
 					rolename = ug.getRolename();
+					mobile = ug.getMobile();
 				}
 				jo.put("rolename", rolename);
+				jo.put("mobile", mobile);
 				jo.put("list", ja);
 			}catch (Exception e){
 				e.printStackTrace();
