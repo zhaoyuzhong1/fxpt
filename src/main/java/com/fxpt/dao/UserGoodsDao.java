@@ -185,6 +185,14 @@ public class UserGoodsDao {
 
     }
 
+    public Integer updateQx2(String code,String flag){
+        String sqlPunish ="update t_user_goods set flag=?,qxdate=now() where code = ? ";
+        Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,code});
+
+        return punishStatus;
+
+    }
+
 
 
 }
