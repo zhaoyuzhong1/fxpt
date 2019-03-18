@@ -25,43 +25,33 @@
             <section class="panel">
                 <div class="page-heading">
                     <h3 class="panel-title">
-                        <i class="fa fa-th-list" style="margin-right: 5px"></i>库存提货管理
+                        <i class="fa fa-th-list" style="margin-right: 5px"></i>升级审核管理
                     </h3>
                 </div>
                 <div class="panel-body" >
                     <div class="form-inline pull-right" style="margin-bottom:15px;">
                         <div class="form-group form-group-sm">
-                            开始时间:<input type="date" id="beginDate" >
-                            结束时间:<input type="date" id="finishDate" >
-                            <input id="search_name" name="search_name" type="text" class="form-control" onkeydown="if(event.keytype==13){gosearch();}" placeholder="请输入电话号码">
+                            <input id="search_name" name="search_name" type="text" class="form-control" onkeydown="if(event.keytype==13){gosearch();}" placeholder="请输入关键字">
                         </div>&nbsp;
                         <button class="btn btn-main btn-sm" type="button" onclick="gosearch()"><i class="fa fa-search"></i> 查询</button>
                         <button class="btn btn-warning-o btn-sm" type="button" onclick="goreset()"><i class="fa fa-repeat"></i> 重置</button>
-                       <%-- <button class="btn btn-success-o btn-sm" type="button" onclick="addGoods()"><i class="fa fa-plus"></i> 添加</button>--%>
-                    </div>
+                        </div>
                     <table id="teacher_table" data-page-size="5"> </table>
                 </div>
             </section>
         </div>
     </div>
 </div>
+<!--body wrapper end-->
+
+<!-- main content end-->
 </body>
 <script>
     //搜索
-    function gosearch() {
-        if($('#beginDate').val()>$('#finishDate').val()){
-                Showbo.Msg.alert('开始日期不能晚于结束日期');
-                return false;
-            }
-        console.log( $('#search_name').val().trim()+
-            $('#beginDate').val()+$('#finishDate').val());
-        $('#teacher_table').bootstrapTable('refreshOptions',{pageNumber:1,pagesize:5});}
+    function gosearch() {$('#teacher_table').bootstrapTable('refreshOptions',{pageNumber:1,pagesize:5});}
 
     //重置
-    function goreset() {$('#search_name').val("");
-        $('#beginDate').val("");
-        $('#finishDate').val("");
-    gosearch();}
+    function goreset() {$('#search_name').val("");gosearch();}
 
     $(function () {
         var dtb1 = new DataTable1();
@@ -72,7 +62,7 @@
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
-                url: "${ctx}/stock/pickUpList",
+                url: "${ctx}/upgrade/queryList",
                 method: 'get',
                 striped: true,
                 cache: false,
@@ -100,40 +90,34 @@
                         formatter: function(value,row,index){
                             return Number(row.count+index)+1;
                         }
-                    },{
-                        field: 'goodname',
-                        title: '商品名称'
-                    },{
+                    }
+                    ,{
                         field: 'username',
-                        title: '姓名'
+                        title: '用户'
                     },{
-                        field: 'mobile',
-                        title: '电话'
+                        field: 'rolename',
+                        title: '现在级别'
+                    }, {
+                        field: 'uprolename',
+                        title: '升级级别'
+                    }, {
+                        field: 'totalprice',
+                        title: '总购物金额'
                     },{
-                        field: 'price',
-                        title: '零售价'
-                    }, {
-                        field: 'buynum',
-                        title: '购买数量'
-                    }, {
-                        field: 'buyprice',
-                        title: '购买总价'
-                    }, {
-                        field: 'ccdate',
-                        title: '提货时间'
-                    }, {
-                        field: 'message',
-                        title: '留言'
-                    },{
-                        field: 'id',
                         title: '操作',
-                        align: 'center',
-                        width:'130px',
+                        width:'100px',
                         formatter: function(value,row,index){
-                            var button ='<div class="btn-group btn-group-xs" style="width:130px">'+
-                                '<button type="button" class="btn btn-default btn-maincolor"onclick="examine(\'' + row.id+'\')" ><i class="fa fa-eye"></i>&nbsp;审&nbsp核</button>';
-                            var b = '<button type="button" style="margin-left: 10px" class="btn btn-default btn-maincolor" onclick="cancelgoods(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;注&nbsp;销</button>';
-                            return button +b+  '</div>';
+                            var button ='<div class="btn-group btn-group-xs">'+
+                                    '<button type="button" class="btn btn-default btn-maincolor" onclick="tg(\''+ row.id + '\',\''+ row.userid + '\',\''+ row.uproleid + '\')" ><i class="fa fa-eye"></i>&nbsp;通&nbsp;过</button>';
+                            var e =  '<button type="button" class="btn btn-default btn-maincolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> '+
+                                    '<span class="caret"></span>'+
+                                    '</button>'+
+                                    '<ul class="dropdown-menu dropdown-menu-right">'+
+                                   '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="btg(\''+row.id+'\')" style="color:red"> 不通过</button></li>'+
+                                    '</ul>';
+
+                            return button +e +  '</div>';
+
                         }
                     }
                 ]
@@ -142,48 +126,20 @@
 
         //得到查询的参数
         oTableInit.queryParams = function (params) {
-
             return {
                 count: params.limit,  //页面大小
                 pagesize:params.offset, //页码
-                mobile:$('#search_name').val().trim(),
-                beginDate:$('#beginDate').val(),
-                finishDate:$('#finishDate').val()
+                search_name:$('#search_name').val().trim()
             };
         };
         return oTableInit;
     }
 
-
-    //审核
-    function examine(id){
-        Showbo.Msg.confirm('确定审核吗？',function (btn) {
+    //打开修改模态框
+    function tg(id,userid,uproleid) {
+        Showbo.Msg.confirm('确定审核通过吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/stock/auditingPickUpGoods",{id:id},function (d) {
-                    if(d=="ajaxfail"){
-                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
-                            if(btn=="yes"){
-                               window.location.href="${ctx}/sys/index";
-                            }
-                        });
-                    }else {
-                        if(d=="ok"){
-                            Showbo.Msg.alert('审核成功');
-                            $('#teacher_table').bootstrapTable('refresh');
-                        }else {
-                            Showbo.Msg.alert('审核失败');
-                        }
-                    }
-                });
-            }
-        })
-    }
-
-    //取消
-    function cancelgoods(id){
-        Showbo.Msg.confirm('确定取消吗？',function (btn) {
-            if(btn=='yes'){
-                $.post("${ctx}/stock/cancelStock",{id:id},function (d) {
+                $.post("${ctx}/upgrade/tg",{id:id,userid:userid,uproleid:uproleid},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
@@ -192,15 +148,42 @@
                         });
                     }else {
                         if(d=="ok"){
-                            Showbo.Msg.alert('取消成功');
+                            Showbo.Msg.alert('审核成功');
                             $('#teacher_table').bootstrapTable('refresh');
+                            $('#model').modal('hide');
                         }else {
-                            Showbo.Msg.alert('取消失败');
+                            Showbo.Msg.alert('审核失败');
                         }
                     }
+
                 });
             }
-        })
+        });
+    }
+    //修改菜单
+    function btg(id) {
+        Showbo.Msg.confirm('确定审核通过吗？',function (btn) {
+            if(btn=='yes'){
+                $.post("${ctx}/upgrade/btg",{id:id},function (d) {
+                    if(d=="ajaxfail"){
+                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                            if(btn=="yes"){
+                                window.location.href="${ctx}/sys/index";
+                            }
+                        });
+                    }else {
+                        if(d=="ok"){
+                            Showbo.Msg.alert('审核不通过成功');
+                            $('#teacher_table').bootstrapTable('refresh');
+                            $('#model').modal('hide');
+                        }else {
+                            Showbo.Msg.alert('审核不通过失败');
+                        }
+                    }
+
+                });
+            }
+        });
     }
 
 </script>

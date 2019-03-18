@@ -72,6 +72,13 @@ public class UserDao {
         return baseDao.update2(sql,new Object[]{flag,id});
     }
 
+
+    //更改用户角色
+    public Integer updateRole(Integer id,int uproleid){
+        String sql ="update t_user set roleid=? where id=?";
+        return baseDao.update2(sql,new Object[]{uproleid,id});
+    }
+
     //根据id修改用户
     public Integer updateDelById(Integer id,String del){
         String sql ="update t_user set del=? where id=?";
