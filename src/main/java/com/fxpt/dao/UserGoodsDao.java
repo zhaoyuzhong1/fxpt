@@ -25,10 +25,33 @@ public class UserGoodsDao {
             sql = sql + " and (username like ? or mobile like ? )";
             arr.add("%"+search_name+"%");
             arr.add("%"+search_name+"%");
+        }else{
+
         }
 
         return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
     }
+
+
+
+    //查询所有用户销售货品列表，查询所有确认结算的数据,根据code分组查询
+    public Page<UserGoods> getList2(String search_name,Integer pagesize, Integer count) {
+        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='1' ";
+        List<String> arr = new ArrayList();
+        if(search_name!=null && !search_name.equals("")){
+            sql = sql + " and (username like ? or mobile like ? ) group by code";
+            arr.add("%"+search_name+"%");
+            arr.add("%"+search_name+"%");
+            return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
+        }else{
+            sql = sql + " group by code";
+            return baseDao.queryByPage(sql,UserGoods.class,new Object[]{},pagesize,count);
+        }
+
+
+    }
+
+
 
     //查询查询销售业绩前10名用户
     public Page<UserGoods> getListTen(String now,String date) {
@@ -58,6 +81,25 @@ public class UserGoodsDao {
 
 
 
+    //查询所有用户销售货品列表，查询所有已付款的数据，根据code分组查询，因为一个code可能对应2个商品
+    public Page<UserGoods> getQrList2(String search_name,Integer pagesize, Integer count) {
+        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='2'  ";
+        List<String> arr = new ArrayList();
+        if(search_name!=null && !search_name.equals("")){
+            sql = sql + " and (username like ? or mobile like ? ) GROUP BY CODE";
+            arr.add("%"+search_name+"%");
+            arr.add("%"+search_name+"%");
+            return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
+        }else{
+            sql = sql + "  GROUP BY CODE";
+            return baseDao.queryByPage(sql,UserGoods.class,new Object[]{},pagesize,count);
+        }
+
+
+    }
+
+
+
     //查询所有用户销售货品列表，查询所有已发货的数据
     public Page<UserGoods> getFhList(String search_name,Integer pagesize, Integer count) {
         String sql="SELECT * from t_user_goods where flag='3' ";
@@ -69,6 +111,25 @@ public class UserGoodsDao {
         }
 
         return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
+    }
+
+
+
+    //查询所有用户销售货品列表，查询所有已发货的数据
+    public Page<UserGoods> getFhList2(String search_name,Integer pagesize, Integer count) {
+        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='3' ";
+        List<String> arr = new ArrayList();
+        if(search_name!=null && !search_name.equals("")){
+            sql = sql + " and (username like ? or mobile like ? )";
+            arr.add("%"+search_name+"%");
+            arr.add("%"+search_name+"%");
+            return baseDao.queryByPage(sql,UserGoods.class,arr.toArray(),pagesize,count);
+        }else{
+            sql = sql + " group by code";
+            return baseDao.queryByPage(sql,UserGoods.class,new Object[]{},pagesize,count);
+        }
+
+
     }
 
 
