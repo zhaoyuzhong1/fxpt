@@ -32,6 +32,7 @@ public class UserGoods extends BaseDTO {
     private double totalsprice;
     private double money;
     private String rolename;
+    private String code;
 
     public int getId() {
         return id;
@@ -239,5 +240,13 @@ public class UserGoods extends BaseDTO {
 
     public void setRolename(String rolename) {
         this.rolename = rolename;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
