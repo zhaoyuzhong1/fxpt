@@ -25,7 +25,7 @@
             <section class="panel">
                 <div class="page-heading">
                     <h3 class="panel-title">
-                        <i class="fa fa-th-list" style="margin-right: 5px"></i>用户购买货品审核管理
+                        <i class="fa fa-th-list" style="margin-right: 5px"></i>用户购买货品审核
                     </h3>
                 </div>
                 <div class="panel-body" >
@@ -52,16 +52,16 @@
         <div class="modal-content">
             <div class="modal-header1">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title"> 用户工资管理</h4>
+                <h4 class="modal-title"> 付款审核</h4>
             </div>
             <div class="modal-body" >
-                <input type="hidden" id="allid">
-                <input type="hidden" id="uiflag">
+                <input type="hidden" id="code">
+
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-sm-3"><font color="red" >*</font> 用户姓名：</label>
                         <div class="col-sm-7">
-                            <input id="name" maxlength="20" type="text" class="form-control" readonly>
+                            <input id="username" maxlength="20" type="text" class="form-control" readonly>
                         </div>
                     </div>
 
@@ -94,10 +94,7 @@
                 <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
                 <button type="button" class="btn btn-tsolid" onclick="add();" ><i class="fa fa-check" ></i> 确定</button>
             </div>
-            <div class="modal-footer" id="qlfoot2" style="display: none">
-                <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
-                <button type="button" class="btn btn-tsolid" onclick="update();" ><i class="fa fa-check" ></i> 修改</button>
-            </div>
+
 
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -157,22 +154,19 @@
                     }
                     ,{
                         field: 'username',
-                        title: '姓名'
+                        title: '用户名称'
                     },{
                         field: 'mobile',
                         title: '手机号'
                     }, {
-                        field: 'goodname',
-                        title: '购买商品'
+                        field: 'code',
+                        title: '订单编号'
                     }, {
-                        field: 'buynum',
-                        title: '数量'
+                        field: 'postname',
+                        title: '邮寄人'
                     }, {
-                        field: 'buyprice',
-                        title: '单价'
-                    }, {
-                        field: 'totalprice',
-                        title: '总价'
+                        field: 'postmobile',
+                        title: '邮寄人手机号码'
                     }, {
                         field: 'cdate',
                         title: '购买时间',
@@ -184,13 +178,13 @@
                         width:'100px',
                         formatter: function(value,row,index){
                             var button ='<div class="btn-group btn-group-xs">'+
-                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="queren(\''+ row.id + '\',\''+ row.username + '\')" ><i class="fa fa-eye"></i>&nbsp;确&nbsp;认</button>';
+                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="zs(\''+ row.code + '\',\''+ row.username + '\')" ><i class="fa fa-eye"></i>&nbsp;确&nbsp;认</button>';
 
                             var e =  '<button type="button" class="btn btn-default btn-maincolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> '+
                                     '<span class="caret"></span>'+
                                     '</button>'+
                                     '<ul class="dropdown-menu dropdown-menu-right">'+
-                                    '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="qx(\''+row.id+'\',\''+ row.username + '\')" style="color:red">&nbsp;取&nbsp;消</button></li>';
+                                    '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="qx(\''+ row.code + '\',\''+ row.username + '\')" style="color:red">&nbsp;取&nbsp;消</button></li>';
 
                             return button +e+ '</ul></div>';
 
@@ -215,9 +209,49 @@
 
 
     //打开修改模态框
-    function queren(id,username) {
+    function zs(code,username) {
+        $("#username").val(username);
+        $("#code").val(code);
+
+        $("#qlfoot1").css("display","block");
+
+
+
+
+        $.post("${ctx}/ug/getUgInfoByCode",{code:code},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
+                    }
+                });
+            }else {
+                if(d==''){
+                    Showbo.Msg.alert('订单展示错误');
+                    //$('#model').modal('hide');
+                }else{
+                    var obj = d.parseJSON();
+                    var rolename = obj.rolename;
+                    alert(obj.list.length);
+
+
+                    $('#model').modal();
+                }
+
+
+            }
+
+        });
+
+
+    }
+
+
+
+
+    function queren(code,username) {
         if(confirm("确定"+username+"已付货款吗？")==true){
-            $.post("${ctx}/ug/updateQr",{id:id},function (d) {
+            $.post("${ctx}/ug/updateQr",{code:code},function (d) {
                 if(d=="ajaxfail"){
                     Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                         if(btn=="yes"){
@@ -241,9 +275,9 @@
     }
 
 
-    function qx(id,username) {
+    function qx(code,username) {
         if(confirm("确定取消"+username+"购买的商品吗？")==true){
-            $.post("${ctx}/ug/deleteUG",{id:id},function (d) {
+            $.post("${ctx}/ug/deleteUG",{code:code},function (d) {
                 if(d=="ajaxfail"){
                     Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                         if(btn=="yes"){
