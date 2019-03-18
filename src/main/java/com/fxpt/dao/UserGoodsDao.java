@@ -36,7 +36,7 @@ public class UserGoodsDao {
 
     //查询所有用户销售货品列表，查询所有确认结算的数据,根据code分组查询
     public Page<UserGoods> getList2(String search_name,Integer pagesize, Integer count) {
-        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='1' ";
+        String sql="SELECT code,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='1' ";
         List<String> arr = new ArrayList();
         if(search_name!=null && !search_name.equals("")){
             sql = sql + " and (username like ? or mobile like ? ) group by code";
@@ -190,6 +190,14 @@ public class UserGoodsDao {
         Integer punishStatus = baseDao.update2(sqlPunish,new Object[]{flag,code});
 
         return punishStatus;
+
+    }
+
+
+
+    public List<UserGoods> getUgInfoByCode(String code){
+        String sqlPunish ="select a.*,b.name as rolename from t_user_goods a left join t_role b on a.roleid=b.id where a.code=? ";
+        return baseDao.query(sqlPunish,UserGoods.class,new Object[]{code});
 
     }
 
