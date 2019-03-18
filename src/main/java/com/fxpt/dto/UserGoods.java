@@ -31,6 +31,7 @@ public class UserGoods extends BaseDTO {
     private int totalsnum;
     private double totalsprice;
     private double money;
+    private String rolename;
 
     public int getId() {
         return id;
@@ -230,5 +231,13 @@ public class UserGoods extends BaseDTO {
 
     public void setPostnum(String postnum) {
         this.postnum = postnum;
+    }
+
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
     }
 }
