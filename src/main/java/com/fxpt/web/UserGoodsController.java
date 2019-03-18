@@ -187,11 +187,11 @@ public class UserGoodsController {
 
 	@ResponseBody
 	@RequestMapping(value = "/updateFh")
-	public String updateFh(int id,HttpServletRequest request) {
+	public String updateFh(int id,String postcom,String postnum,HttpServletRequest request) {
 		User emp1 = (User) request.getSession().getAttribute("empSession");
 		logUtil.addLog("确认购买商品可以发货("+id+")",emp1.getId(),emp1.getName());
 
-		int exist = userGoodsDao.updateFh(id,"3");
+		int exist = userGoodsDao.updateFh(id,"3",postcom,postnum);
 		if(exist == 0){
 			return "ok";
 		}
