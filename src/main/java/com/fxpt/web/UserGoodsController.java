@@ -218,19 +218,23 @@ public class UserGoodsController {
 		JSONObject jo = new JSONObject();
 		List<UserGoods> ugs = userGoodsDao.getUgInfoByCode(code);
 		if(ugs.size()>0) {
-			JSONArray ja = new JSONArray();
-			String rolename = "";
-			for (UserGoods ug : ugs) {
-				JSONObject jo1 = new JSONObject();
-				jo1.put("goodname", ug.getGoodname());
-				jo1.put("buynum", ug.getBuynum());
-				jo1.put("buyprice", ug.getBuyprice());
-				jo1.put("total", ug.getTotalprice());
-				ja.put(jo1);
-				rolename = ug.getRolename();
+			try {
+				JSONArray ja = new JSONArray();
+				String rolename = "";
+				for (UserGoods ug : ugs) {
+					JSONObject jo1 = new JSONObject();
+					jo1.put("goodname", ug.getGoodname());
+					jo1.put("buynum", ug.getBuynum());
+					jo1.put("buyprice", ug.getBuyprice());
+					jo1.put("total", ug.getTotalprice());
+					ja.put(jo1);
+					rolename = ug.getRolename();
+				}
+				jo.put("rolename", rolename);
+				jo.put("list", ja);
+			}catch (Exception e){
+				e.printStackTrace();
 			}
-			jo.put("rolename", rolename);
-			jo.put("list", ja);
 			return jo.toString();
 		}else{
 			return "";
