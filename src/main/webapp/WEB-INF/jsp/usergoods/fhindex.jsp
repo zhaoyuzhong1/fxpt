@@ -47,6 +47,69 @@
 </div>
 <!--body wrapper end-->
 
+<div class="modal fade" id="model">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header1">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"> 发货管理</h4>
+            </div>
+            <div class="modal-body" >
+                <input type="hidden" id="id">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 购买人：</label>
+                        <div class="col-sm-7">
+                            <input id="username" maxlength="20" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 手机号码：</label>
+                        <div class="col-sm-7">
+                            <input id="mobile" maxlength="20" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 快递公司：</label>
+                        <div class="col-sm-7">
+                            <select id="postcom">
+                                <option value="">请选择</option>
+                                <option value="顺丰">顺丰</option>
+                                <option value="中通">中通</option>
+                                <option value="圆通">圆通</option>
+                                <option value="申通">申通</option>
+                                <option value="韵达">韵达</option>
+                                <option value="百世">百世</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 快递单号：</label>
+                        <div class="col-sm-7">
+                            <input id="postnum" maxlength="20" type="text" class="form-control">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer" id="qlfoot1">
+                <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
+                <button type="button" class="btn btn-tsolid" onclick="add();" ><i class="fa fa-check" ></i> 确定</button>
+            </div>
+            <div class="modal-footer" id="qlfoot2" style="display: none">
+                <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
+                <button type="button" class="btn btn-tsolid" onclick="update();" ><i class="fa fa-check" ></i> 修改</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!--查看-->
 <!-- main content end-->
 </body>
@@ -127,7 +190,7 @@
                         width:'100px',
                         formatter: function(value,row,index){
                             var button ='<div class="btn-group btn-group-xs">'+
-                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="queren(\''+ row.id + '\',\''+ row.username + '\')" ><i class="fa fa-eye"></i>&nbsp;发&nbsp;货</button>';
+                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="fh(\''+ row.id + '\',\''+ row.username + '\',\''+ row.mobile + '\')" ><i class="fa fa-eye"></i>&nbsp;发&nbsp;货</button>';
 
                             return button + '</div>';
 
@@ -150,30 +213,57 @@
     }
 
 
+    function fh(id,username,mobile) {
+        $("#id").val(id);
+        $("#username").val(username);
+        $("#mobile").val(mobile);
+
+        $("#qlfoot1").css("display","block");
+        $("#qlfoot2").css("display","none");
+        $('#model').modal();
+    }
+
+
 
     //打开修改模态框
-    function queren(id,username) {
-        if(confirm("确定"+username+"可以发货吗？")==true){
-            $.post("${ctx}/ug/updateFh",{id:id},function (d) {
-                if(d=="ajaxfail"){
-                    Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
-                        if(btn=="yes"){
-                            window.location.href="${ctx}/sys/index";
-                        }
-                    });
-                }else {
-                    if(d=='ok'){
-                        Showbo.Msg.alert('确认发货成功');
-                        $('#teacher_table').bootstrapTable('refresh');
-                    }else{
-                        Showbo.Msg.alert('确认发货失败');
+    function add() {
+        var id = $("#id").val();
+        var postcom = $("#postcom").val();
+        var postnum = $("#postnum").val();
+        if(postcom.length<1){
+            Showbo.Msg.alert('请选择快递公司');
+            return false;
+        }
+
+        if(postnum.length<1){
+            Showbo.Msg.alert('请填写快递单号');
+            return false;
+        }
+
+
+
+        $.post("${ctx}/ug/updateFh",{id:id,postcom:postcom,postnum:postnum},function (d) {
+            if(d=="ajaxfail"){
+                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                    if(btn=="yes"){
+                        window.location.href="${ctx}/sys/index";
                     }
-
-
+                });
+            }else {
+                if(d=='ok'){
+                    Showbo.Msg.alert('发货成功');
+                    //$('#model').hide();
+                    $('#model').modal('hide');
+                    $('#teacher_table').bootstrapTable('refresh');
+                }else{
+                    Showbo.Msg.alert('发货失败');
                 }
 
-            });
-        }
+
+            }
+
+        });
+
 
     }
 
