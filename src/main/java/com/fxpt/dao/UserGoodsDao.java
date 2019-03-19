@@ -117,7 +117,7 @@ public class UserGoodsDao {
 
     //查询所有用户销售货品列表，查询所有已发货的数据
     public Page<UserGoods> getFhList2(String search_name,Integer pagesize, Integer count) {
-        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile FROM t_user_goods WHERE flag='3' ";
+        String sql="SELECT CODE,username,mobile,cdate,postadd,postname,postmobile,postcom,postnum FROM t_user_goods WHERE flag='3' ";
         List<String> arr = new ArrayList();
         if(search_name!=null && !search_name.equals("")){
             sql = sql + " and (username like ? or mobile like ? )";
