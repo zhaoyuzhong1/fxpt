@@ -1,6 +1,7 @@
 package com.fxpt.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by james on 2018/12/14.
@@ -35,6 +36,7 @@ public class User extends BaseDTO {
     private String applydate;
     private Integer tuiid;
     private String del;
+    private Date cdate;
     public Integer getId() {
         return id;
     }
@@ -257,5 +259,13 @@ public class User extends BaseDTO {
 
     public void setDel(String del) {
         this.del = del;
+    }
+
+    public Date getCdate() {
+        return cdate;
+    }
+
+    public void setCdate(Date cdate) {
+        this.cdate = cdate;
     }
 }
