@@ -12,7 +12,7 @@
 
         <ul class="nav nav-pills nav-stacked custom-nav">
             <!--<li ><a href="${ctx}/sys/index"><i class="fa fa-home"></i> <span>首页</span></a></li>-->
-            <li <c:if test="${smenu.id==menuUtil.mid}">class="active"</c:if>><a href="${ctx}/ywMain/index"><i class="fa fa-home"></i> <span>首页</span></a></li>
+            <li <c:if test="${smenu.id==menuUtil.mid}">class="active"</c:if>><a href="#"><i class="fa fa-home"></i> <span>首页</span></a></li>
             <c:forEach var="menu" items="${smenus}">
                 <li <c:if test="${menu.pfunction.id!=menuUtil.pid}">class="menu-list"</c:if> <c:if test="${menu.pfunction.id==menuUtil.pid}">class="menu-list nav-active"</c:if>><a href="#"><i class="${menu.pfunction.iconcss}"></i> <span>${menu.pfunction.name}</span></a>
                     <ul class="sub-menu-list" >
