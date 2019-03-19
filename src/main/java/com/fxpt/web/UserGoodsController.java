@@ -149,7 +149,7 @@ public class UserGoodsController {
 	@RequestMapping(value = "/getQrList")
 	public Map<String, Object> getQrList(String search_name, Integer pagesize, Integer count) {
 		Map<String, Object> map = new HashMap<>();
-		Page<UserGoods> pageList = userGoodsDao.getQrList(search_name,pagesize, count);
+		Page<UserGoods> pageList = userGoodsDao.getQrList2(search_name,pagesize, count);
 		map.put("rows", pageList.getResult());
 		map.put("total", pageList.getTotalCount());
 		return map;
@@ -160,7 +160,7 @@ public class UserGoodsController {
 	@RequestMapping(value = "/getFhList")
 	public Map<String, Object> getFhList(String search_name, Integer pagesize, Integer count) {
 		Map<String, Object> map = new HashMap<>();
-		Page<UserGoods> pageList = userGoodsDao.getFhList(search_name,pagesize, count);
+		Page<UserGoods> pageList = userGoodsDao.getFhList2(search_name,pagesize, count);
 		map.put("rows", pageList.getResult());
 		map.put("total", pageList.getTotalCount());
 		return map;
