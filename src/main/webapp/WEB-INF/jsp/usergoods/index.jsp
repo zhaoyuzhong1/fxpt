@@ -267,6 +267,7 @@
                 }else {
                     if(d=='ok'){
                         Showbo.Msg.alert('确认成功');
+                        $('#model').modal("hide");
                         $('#teacher_table').bootstrapTable('refresh');
                     }else{
                         Showbo.Msg.alert('确认失败');
