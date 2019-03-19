@@ -89,7 +89,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a style="font-size: 0;" class="navbar-brand" href="#"><img class="cloudoss-logo" src="${ctx}/images/wycx_logo.png"/></a>
+            <a style="font-size: 18px;color:#fff;line-height: 50px;" class="navbar-brand" href="#"><img class="cloudoss-logo" src="${ctx}/images/logo.png"/>&nbsp;&nbsp;久康元</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li><p class="navbar-text">${empSession.name}，欢迎您！</p></li>
