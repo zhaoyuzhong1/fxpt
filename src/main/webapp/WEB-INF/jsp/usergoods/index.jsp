@@ -90,7 +90,7 @@
             </div>
             <div class="modal-footer" id="qlfoot1">
                 <button type="button"  class="btn btn-thollow" data-dismiss="modal"><i class="fa fa-times"></i> 取消</button>
-                <button type="button" class="btn btn-tsolid" onclick="add();" ><i class="fa fa-check" ></i> 确定</button>
+                <button type="button" class="btn btn-tsolid" onclick="queren();" ><i class="fa fa-check" ></i> 确定</button>
             </div>
 
 
@@ -253,7 +253,9 @@
 
 
 
-    function queren(code,username) {
+    function queren() {
+        var code = $("#code").val();
+        var username = $("#username").val();
         if(confirm("确定"+username+"已付货款吗？")==true){
             $.post("${ctx}/ug/updateQr",{code:code},function (d) {
                 if(d=="ajaxfail"){
