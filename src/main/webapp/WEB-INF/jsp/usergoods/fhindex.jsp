@@ -55,7 +55,7 @@
                 <h4 class="modal-title"> 发货管理</h4>
             </div>
             <div class="modal-body" >
-                <input type="hidden" id="id">
+                <input type="hidden" id="code">
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-sm-3"><font color="red" >*</font> 购买人：</label>
@@ -163,34 +163,25 @@
                     }
                     ,{
                         field: 'username',
-                        title: '姓名'
+                        title: '用户名称'
                     },{
                         field: 'mobile',
                         title: '手机号'
                     }, {
-                        field: 'goodname',
-                        title: '购买商品'
+                        field: 'code',
+                        title: '订单编号'
                     }, {
-                        field: 'buynum',
-                        title: '数量'
+                        field: 'postname',
+                        title: '邮寄人'
                     }, {
-                        field: 'buyprice',
-                        title: '单价'
-                    }, {
-                        field: 'totalprice',
-                        title: '总价'
-                    }, {
-                        field: 'qrdate',
-                        title: '收款时间',
-                        formatter: function(value,row,index){
-                            return getTime(value)
-                        }
+                        field: 'postmobile',
+                        title: '邮寄人手机号码'
                     },{
                         title: '操作',
                         width:'100px',
                         formatter: function(value,row,index){
                             var button ='<div class="btn-group btn-group-xs">'+
-                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="fh(\''+ row.id + '\',\''+ row.username + '\',\''+ row.mobile + '\')" ><i class="fa fa-eye"></i>&nbsp;发&nbsp;货</button>';
+                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="fh(\''+ row.code + '\',\''+ row.username + '\',\''+ row.mobile + '\')" ><i class="fa fa-eye"></i>&nbsp;发&nbsp;货</button>';
 
                             return button + '</div>';
 
@@ -213,8 +204,8 @@
     }
 
 
-    function fh(id,username,mobile) {
-        $("#id").val(id);
+    function fh(code,username,mobile) {
+        $("#code").val(code);
         $("#username").val(username);
         $("#mobile").val(mobile);
 
@@ -227,7 +218,7 @@
 
     //打开修改模态框
     function add() {
-        var id = $("#id").val();
+        var code = $("#code").val();
         var postcom = $("#postcom").val();
         var postnum = $("#postnum").val();
         if(postcom.length<1){
@@ -242,7 +233,7 @@
 
 
 
-        $.post("${ctx}/ug/updateFh",{id:id,postcom:postcom,postnum:postnum},function (d) {
+        $.post("${ctx}/ug/updateFh",{code:code,postcom:postcom,postnum:postnum},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
