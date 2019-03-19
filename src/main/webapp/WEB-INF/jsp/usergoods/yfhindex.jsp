@@ -99,22 +99,25 @@
                     }
                     ,{
                         field: 'username',
-                        title: '姓名'
+                        title: '用户名称'
                     },{
                         field: 'mobile',
                         title: '手机号'
                     }, {
-                        field: 'goodname',
-                        title: '购买商品'
+                        field: 'code',
+                        title: '订单编号'
                     }, {
-                        field: 'buynum',
-                        title: '数量'
+                        field: 'postname',
+                        title: '邮寄人'
                     }, {
-                        field: 'buyprice',
-                        title: '单价'
+                        field: 'postmobile',
+                        title: '邮寄人手机号码'
                     }, {
-                        field: 'totalprice',
-                        title: '总价'
+                        field: 'postcom',
+                        title: '快递公司'
+                    }, {
+                        field: 'postnum',
+                        title: '快递单号'
                     }, {
                         field: 'fhdate',
                         title: '发货时间',
