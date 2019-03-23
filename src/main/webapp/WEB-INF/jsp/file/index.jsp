@@ -316,7 +316,7 @@
     function qyImg(id) {
         Showbo.Msg.confirm('确定要恢复吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/file/qyImg",{id:id},function (d) {
+                $.post("${ctx}/file/qy",{id:id},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
@@ -342,7 +342,7 @@
     function zxImg(id) {
         Showbo.Msg.confirm('确定要删除吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/file/zxImg",{id:id},function (d) {
+                $.post("${ctx}/file/zx",{id:id},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
