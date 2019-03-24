@@ -422,18 +422,18 @@
     //打开修改模态框
     function updateGoods(id,name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock) {
         $('#allid').val(id);
-        $('#name_').val(name);
-        $('#price_').val(price);
+        $('#name').val(name);
+        $('#price').val(price);
 
-        $('#buyprice1_').val(buyprice1);
-        $('#buyprice2_').val(buyprice2);
-        $('#spec_').val(spec);
-        $('#taste_').val(taste);
-        $('#proadd_').val(proadd);
-        $('#fitpeople_').val(fitpeople);
-        $('#stuff_').val(stuff);
-        $('#detail_').val(detail);
-        $('#stock_').val(stock);
+        $('#buyprice1').val(buyprice1);
+        $('#buyprice2').val(buyprice2);
+        $('#spec').val(spec);
+        $('#taste').val(taste);
+        $('#proadd').val(proadd);
+        $('#fitpeople').val(fitpeople);
+        $('#stuff').val(stuff);
+        $('#detail').val(detail);
+        $('#stock').val(stock);
 
 
         $("#qlfoot2").css("display","block");
@@ -497,10 +497,21 @@
         });
     }
 
+
     //查看
-    function All(name,code){
-        $("#name_").text(name);
-        $("#code_").text(code);
+    function All(name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock){
+        $('#name_').text(name);
+        $('#price_').text(price);
+
+        $('#buyprice1_').text(buyprice1);
+        $('#buyprice2_').text(buyprice2);
+        $('#spec_').text(spec);
+        $('#taste_').text(taste);
+        $('#proadd_').text(proadd);
+        $('#fitpeople_').text(fitpeople);
+        $('#stuff_').text(stuff);
+        $('#detail_').text(detail);
+        $('#stock_').text(stock);
 
         $("#model1").modal();
     }
