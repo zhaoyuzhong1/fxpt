@@ -422,18 +422,18 @@
     //打开修改模态框
     function updateGoods(id,name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock) {
         $('#allid').val(id);
-        $('#name').val(name);
-        $('#price').val(price);
+        $('#name_').val(name);
+        $('#price_').val(price);
 
-        $('#buyprice1').val(buyprice1);
-        $('#buyprice2').val(buyprice2);
-        $('#spec').val(spec);
-        $('#taste').val(taste);
-        $('#proadd').val(proadd);
-        $('#fitpeople').val(fitpeople);
-        $('#stuff').val(stuff);
-        $('#detail').val(detail);
-        $('#stock').val(stock);
+        $('#buyprice1_').val(buyprice1);
+        $('#buyprice2_').val(buyprice2);
+        $('#spec_').val(spec);
+        $('#taste_').val(taste);
+        $('#proadd_').val(proadd);
+        $('#fitpeople_').val(fitpeople);
+        $('#stuff_').val(stuff);
+        $('#detail_').val(detail);
+        $('#stock_').val(stock);
 
 
         $("#qlfoot2").css("display","block");
