@@ -1,9 +1,6 @@
 package com.fxpt.service;
 
-import com.fxpt.dao.CashDao;
-import com.fxpt.dao.ImgFileDao;
-import com.fxpt.dao.UpGradeDao;
-import com.fxpt.dao.UserDao;
+import com.fxpt.dao.*;
 import com.fxpt.dto.Cash;
 import com.fxpt.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +27,22 @@ public class InterService {
     UserDao userDao;
     @Autowired
     UpGradeDao upGradeDao;
+    @Autowired
+    GoodsFileDao goodsFileDao;
 
 
-
+    //启用imgFile的某个图片放在首页
     @Transactional
     public void qyImg(int id){
         imgFileDao.updateZx();
         imgFileDao.updateQy(id);
+    }
+
+    //启用goodsFile的某个图片做封面
+    @Transactional
+    public void qyGoodsImg(int id){
+        goodsFileDao.updateZx();
+        goodsFileDao.updateQy(id);
     }
 
 
