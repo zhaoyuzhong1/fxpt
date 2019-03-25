@@ -2,6 +2,7 @@ package com.fxpt.service;
 
 import com.fxpt.dao.*;
 import com.fxpt.dto.Cash;
+import com.fxpt.dto.GoodsFile;
 import com.fxpt.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,13 @@ public class InterService {
     public void qyGoodsImg(int id){
         goodsFileDao.updateZx();
         goodsFileDao.updateQy(id);
+    }
+
+    //如果之前的图片有设置默认图片，调用改方法
+    @Transactional
+    public void addGoodFile(GoodsFile gf){
+        goodsFileDao.updateZx();
+        goodsFileDao.addGoodsFile(gf);
     }
 
 
