@@ -12,6 +12,7 @@ public class GoodsFile extends BaseDTO {
     private Date cdate;
     private Integer cuser;
     private String flag;
+    private String fmflag;
 
     public Integer getId() {
         return id;
@@ -59,5 +60,13 @@ public class GoodsFile extends BaseDTO {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public String getFmflag() {
+        return fmflag;
+    }
+
+    public void setFmflag(String fmflag) {
+        this.fmflag = fmflag;
     }
 }
