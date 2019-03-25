@@ -1,7 +1,9 @@
 package com.fxpt.web;
 
 import com.fxpt.dao.GoodsDao;
+import com.fxpt.dao.GoodsFileDao;
 import com.fxpt.dto.Goods;
+import com.fxpt.dto.GoodsFile;
 import com.fxpt.dto.User;
 import com.fxpt.util.LogUtil;
 import com.fxpt.util.MenuUtil;
@@ -24,6 +26,8 @@ public class GoodsController  {
 	LogUtil logUtil;
 	@Autowired
 	GoodsDao goodsDao;
+	@Autowired
+	GoodsFileDao goodsFileDao;
 	//首页跳转
 	@RequestMapping(value = "/index")
 	public String index(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
@@ -85,5 +89,26 @@ public class GoodsController  {
 		}else {
 			return "nook";
 		}
+	}
+
+
+
+	@RequestMapping(value = "/imgfile")
+	public String imgfile(String id, Model model) {
+
+		model.addAttribute("goodid",id);
+		return "goods/imgfile";
+	}
+
+
+
+	@ResponseBody
+	@RequestMapping(value = "/queryImgList")
+	public Map<String, Object> queryImgList(String goodid, Integer pagesize, Integer count) {
+		Map<String, Object> map = new HashMap<>();
+		Page<GoodsFile> pageList = goodsFileDao.getList(goodid,pagesize, count);
+		map.put("rows", pageList.getResult());
+		map.put("total", pageList.getTotalCount());
+		return map;
 	}
 }
