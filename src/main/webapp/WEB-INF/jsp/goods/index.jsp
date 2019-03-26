@@ -327,6 +327,9 @@
                     }, {
                         field: 'stock',
                         title: '库存'
+                    }, {
+                        field: 'imgfile',
+                        title: '封面图片'
                     },{
                         title: '操作',
                         width:'100px',
@@ -338,7 +341,7 @@
                                     '</button>'+
                                     '<ul class="dropdown-menu dropdown-menu-right">'+
                                     '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGoods(\''+ row.id + '\',\''+ row.name + '\',\''+ row.price + '\',\''+ row.buyprice1 + '\',\''+ row.buyprice2 + '\',\''+ row.buyprice3 + '\',\''+ row.spec + '\',\''+ row.taste + '\',\''+ row.proadd + '\',\''+ row.fitpeople + '\',\''+ row.stuff + '\',\''+ row.detail + '\',\''+ row.stock + '\')">修改</button></li>'+
-                                    '<li style="float: none;"><button type="button" class="btn btn-link" onclick="imgfile(\''+ row.id + '\')">图片管理</button></li>'+
+                                    '<li style="float: none;"><button type="button" class="btn btn-link" onclick="imgfile(\''+ row.id + '\',\''+ row.name + '\')">图片管理</button></li>'+
                                     '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="deleteGoods(\''+row.id+'\')" style="color:red"> 删除</button></li>'+
                                     '</ul>';
 
@@ -361,8 +364,8 @@
         return oTableInit;
     }
 
-    function imgfile(id) {
-        window.location.href="${ctx}/goods/imgfile?id="+id;
+    function imgfile(id,name) {
+        window.location.href="${ctx}/goods/imgfile?id="+id+"&name="+name;
     }
 
     //打开添加模态框

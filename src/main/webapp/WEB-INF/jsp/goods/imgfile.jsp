@@ -40,7 +40,7 @@
                 </div>
                 <div class="panel-body" >
                     <div class="form-inline pull-right" style="margin-bottom:15px;">
-                        <button class="btn btn-success-o btn-sm" type="button" onclick="addImg()"><i class="fa fa-plus"></i> 添加</button>
+                        <button class="btn btn-success-o btn-sm" type="button" onclick="addImg(${goodid})"><i class="fa fa-plus"></i> 添加</button>
                     </div>
                     <table id="teacher_table" data-page-size="5"> </table>
                 </div>
@@ -91,16 +91,11 @@
             <div class="modal-content">
                 <div class="modal-header1">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">查看素材信息</h4>
+                    <h4 class="modal-title">查看图片信息</h4>
                 </div>
                 <div class="panel-body" >
                     <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label  class="col-lg-3 col-sm-2 control-label">图片名称：</label>
-                            <div class="col-lg-8">
-                                <label id="name1" class="labelStyle-style-lable"></label>
-                            </div>
-                        </div>
+
                         <div  id="divs">
 
                         </div>
@@ -129,7 +124,7 @@
         var oTableInit = new Object();
         oTableInit.Init = function (){
             $('#teacher_table').bootstrapTable('destroy').bootstrapTable({
-                url: "${ctx}/goods/getImgList",
+                url: "${ctx}/goods/queryImgList",
                 method: 'get',
                 striped: true,
                 cache: false,
@@ -158,17 +153,10 @@
                             return Number(row.count+index)+1;
                         }
                     },{
-                        field: 'typename',
-                        title: '素材类型'
-                    }
-                    ,{
-                        field: 'name',
+                        field: 'imgfile',
                         title: '图片名称'
-                    },{
-                        field: 'username',
-                        title: '上传人姓名'
                     }, {
-                        field: 'ccdate',
+                        field: 'cdate',
                         title: '上传时间'
                     }, {
                         title: '操作',
@@ -177,7 +165,12 @@
                             var button ='<div class="btn-group btn-group-xs" style="width:130px">'+
                                 '<button type="button" class="btn btn-default btn-maincolor"onclick="lookview(\'' + row.id+'\')" ><i class="fa fa-eye"></i>&nbsp;查&nbsp;看</button>';
                             var b = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="deleteImg(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;删&nbsp;除</button>';
-                            return button +b+  '</div>';
+                            var e = '';
+                            if(row.fmflag=='1'){
+                                e = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="fm(\''+ row.id + '\',\''+ row.goodid + '\',\''+ row.imgfile + '\')" ><i class="fa fa-eye"></i>设为封面</button>';
+                            }
+
+                            return button +e+ b+ '</div>';
                         }
                     }
                 ]
@@ -189,15 +182,15 @@
             return {
                 count: params.limit,  //页面大小
                 pagesize:params.offset, //页码
-                name:$('#search_name').val().trim()
+                goodid:"${goodid}"
             };
         };
         return oTableInit;
     }
 
     //跳转添加页面
-    function addImg(){
-        window.location.href="${ctx}/imgMaterial/addimg";
+    function addImg(goodid){
+        window.location.href="${ctx}/goods/addimg?goodid="+goodid;
 
     }
 
@@ -208,42 +201,11 @@
     });
 
 
-/*    //添加图片素材
-    function add() {
-        var name = $("#name").val();
-        var myReg = /^[^@\/\'\\\"#$%&\^\*]+$/;
-        if($.isEmptyObject(name)||name.trim()==""){
-            Showbo.Msg.alert("请输入图片名称！");
-            return false;
-        }else if (!myReg.test(name)){
-            Showbo.Msg.alert("图片名称含有非法字符，请重新输入！");
-            return false;
-        }
-        $.post("${ctx}/imgMaterial/addImg",{name:name.trim()},function (d) {
-            if(d=="ajaxfail"){
-                Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
-                    if(btn=="yes"){
-                        window.location.href="${ctx}/sys/index";
-                    }
-                });
-            }else {
-                if(d=="ok"){
-                    Showbo.Msg.alert('添加成功');
-                    $('#teacher_table').bootstrapTable('refresh');
-                    $('#model').modal('hide');
-                }else {
-                    Showbo.Msg.alert('添加失败');
-                }
-            }
-        });
-
-    }*/
-
 
     //查看
     function lookview(id){
         $("#model1").modal();
-        $.post("${ctx}/imgMaterial/lookview",{id:id},function (d) {
+        $.post("${ctx}/goods/lookview",{id:id},function (d) {
             console.log(d);
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
@@ -253,8 +215,7 @@
                 });
             }else {
                 if(d.message=="ok"){
-                    $("#name1").text(d.name);
-                    var src="${ctx}/img_material/"+d.src;
+                    var src="${ctx}/img_goods/"+d.src;
 
               /*      var fr = new FileReader();
                     var $img = $('.index-bd .bd .img-wrap img').eq(0);
@@ -275,7 +236,7 @@
     function deleteImg(id) {
         Showbo.Msg.confirm('确定要删除吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/imgMaterial/deleteImg",{id:id},function (d) {
+                $.post("${ctx}/goods/deleteImg",{id:id},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
@@ -288,6 +249,32 @@
                             $('#teacher_table').bootstrapTable('refresh');
                         }else {
                             Showbo.Msg.alert('删除失败');
+                        }
+                    }
+
+                });
+            }
+        })
+    }
+
+
+
+    function fm(id,goodid,imgfile) {
+        Showbo.Msg.confirm('确定要设为封面图片吗？',function (btn) {
+            if(btn=='yes'){
+                $.post("${ctx}/goods/deleteImg",{id:id,goodid:goodid,imgfile:imgfile},function (d) {
+                    if(d=="ajaxfail"){
+                        Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
+                            if(btn=="yes"){
+                                window.location.href="${ctx}/sys/index";
+                            }
+                        });
+                    }else {
+                        if(d=="ok"){
+                            Showbo.Msg.alert('设置封面图片成功');
+                            $('#teacher_table').bootstrapTable('refresh');
+                        }else {
+                            Showbo.Msg.alert('设置封面图片失败');
                         }
                     }
 

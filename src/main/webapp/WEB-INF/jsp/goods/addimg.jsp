@@ -52,7 +52,8 @@
     <!-- markup -->
     <!-- note: your server code `avatar_upload.php` will receive `$_FILES['avatar']` on form submission -->
     <!-- the avatar markup -->
-    <form  action="${ctx}/imgMaterial/uploadImg" method="post" enctype="multipart/form-data" id="form">
+    <form  action="${ctx}/goods/uploadGoodsFile" method="post" enctype="multipart/form-data" id="form">
+        <input type="hidden" name="goodid" value="${goodid}"/>
         <div class="row">
             <div class="col-sm-4 text-center">
                 <div class="kv-avatar">
@@ -63,31 +64,7 @@
                 <div class="kv-avatar-hint"><small>Select file < 4500 KB</small></div>
             </div>
             <div class="col-sm-8">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="name">素材名称<span class="kv-reqd">*</span></label>
-                            <input type="text" class="form-control" name="name" id="name" required>
-                        </div>
-                    </div>
 
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="name">素材类型<span class="kv-reqd">*</span></label>
-                            <select id="typeid" name="typeid">
-                                <option value="">-请选择-</option>
-                                <c:forEach items="${mts}" var="mt">
-                                    <option value="${mt.id}">${mt.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
 
                 <div class="form-group">
                     <div class="text-right">
@@ -133,18 +110,7 @@
 
         function uploadImg() {
             var avatar = $("#avatar-1").val();
-            var name = $("#name").val();
-            var typeid = $("#typeid").val();
-            if(name.length<1){
-                alert("请填写素材名称！");
-                return false;
-            }
 
-
-            if(typeid.length<1){
-                alert("请选择素材类型！");
-                return false;
-            }
 
 
             if(avatar.length<1){
