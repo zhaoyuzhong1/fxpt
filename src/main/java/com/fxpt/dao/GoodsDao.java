@@ -18,7 +18,7 @@ public class GoodsDao {
 
     //添加
     public Integer addGoods(Goods g){
-        String sql =" insert into t_goods (name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock,cdate,cuser,flag) values(:name,:price,:buyprice1,:buyprice2,:spec,:taste,:proadd,:fitpeople,:stuff,:detail,:stock,now(),:cuser,'0')";
+        String sql =" insert into t_goods (name,price,buyprice1,buyprice2,buyprice3,spec,taste,proadd,fitpeople,stuff,detail,stock,cdate,cuser,flag) values(:name,:price,:buyprice1,:buyprice2,:buyprice3,:spec,:taste,:proadd,:fitpeople,:stuff,:detail,:stock,now(),:cuser,'0')";
         //return baseDao.insert2(log);
         return baseDao.insert(sql,g);
     }
@@ -31,7 +31,7 @@ public class GoodsDao {
 
 
     public Integer updateGoods(Goods goods){
-        String sql ="update t_goods set name=:name,price=:price,buyprice1=:buyprice1,buyprice2=:buyprice2,spec=:spec,taste=:taste,proadd=:proadd,fitpeople=:fitpeople,stuff=:stuff,detail=:detail,stock=:stock where id=:id ";
+        String sql ="update t_goods set name=:name,price=:price,buyprice1=:buyprice1,buyprice2=:buyprice2,buyprice3=:buyprice3,spec=:spec,taste=:taste,proadd=:proadd,fitpeople=:fitpeople,stuff=:stuff,detail=:detail,stock=:stock where id=:id ";
         return baseDao.update(sql,goods);
     }
 
