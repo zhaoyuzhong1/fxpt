@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -164,14 +165,15 @@ public class GoodsController  {
 		FileOutputStream fileOutputStream = null;
 
 		try {
+			String name = new Date().getTime()+filename.substring(filename.indexOf("."),filename.length());
 			inputStream = multipartFile.getInputStream();
-			fileOutputStream = new FileOutputStream(basePath+filename);
+			fileOutputStream = new FileOutputStream(basePath+name);
 			while ((len = inputStream.read(data)) != -1) {
 				fileOutputStream.write(data, 0, len);
 			}
 			GoodsFile img = new GoodsFile();
 			img.setGoodid(Integer.parseInt(goodid));
-			img.setImgfile(filename);
+			img.setImgfile(name);
 			img.setFlag("0");
 			img.setCuser(emp1.getId());
 			img.setFmflag(fmflag);
@@ -197,11 +199,12 @@ public class GoodsController  {
 		Map map=new HashMap();
 		try{
 			GoodsFile gf = goodsFileDao.getFileById(id+"");
-
+			//System.out.println("id:"+id+"==="+gf);
 			map.put("src",gf.getImgfile());
 			map.put("message","ok");
 
 		}catch (Exception e){
+			e.printStackTrace();
 			map.put("message","error");
 			return map;
 		}
