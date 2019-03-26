@@ -7,8 +7,8 @@ import java.util.Date;
  */
 public class GoodsFile extends BaseDTO {
     private Integer id;
-    private String name;
-    private String imgpath;
+    private String imgfile;
+    private Integer goodid;
     private Date cdate;
     private Integer cuser;
     private String flag;
@@ -22,20 +22,20 @@ public class GoodsFile extends BaseDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getImgfile() {
+        return imgfile;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImgfile(String imgfile) {
+        this.imgfile = imgfile;
     }
 
-    public String getImgpath() {
-        return imgpath;
+    public Integer getGoodid() {
+        return goodid;
     }
 
-    public void setImgpath(String imgpath) {
-        this.imgpath = imgpath;
+    public void setGoodid(Integer goodid) {
+        this.goodid = goodid;
     }
 
     public Date getCdate() {
