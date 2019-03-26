@@ -262,7 +262,7 @@
     function fm(id,goodid,imgfile) {
         Showbo.Msg.confirm('确定要设为封面图片吗？',function (btn) {
             if(btn=='yes'){
-                $.post("${ctx}/goods/deleteImg",{id:id,goodid:goodid,imgfile:imgfile},function (d) {
+                $.post("${ctx}/goods/fm",{id:id,goodid:goodid,imgfile:imgfile},function (d) {
                     if(d=="ajaxfail"){
                         Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                             if(btn=="yes"){
