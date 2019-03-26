@@ -42,4 +42,10 @@ public class GoodsDao {
     }
 
 
+    public Integer updateImgfile(int id,String imgfile){
+        String sql ="update t_goods set imgfile=? where id=? ";
+        return baseDao.update2(sql,new Object[]{imgfile,id});
+    }
+
+
 }
