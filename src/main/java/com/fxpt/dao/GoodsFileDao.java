@@ -31,7 +31,12 @@ public class GoodsFileDao {
 
     public GoodsFile getFileById(String id){
         String sql = "select * from t_goods_file where id=?";
-        return baseDao.queryForObject(sql,GoodsFile.class,new Object[]{id});
+        List<GoodsFile> gfs = baseDao.query(sql,GoodsFile.class,new Object[]{id});
+        if(gfs.size()>0){
+            return gfs.get(0);
+        }else{
+            return null;
+        }
     }
 
 
