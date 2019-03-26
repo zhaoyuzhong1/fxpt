@@ -64,7 +64,15 @@
                 <div class="kv-avatar-hint"><small>Select file < 4500 KB</small></div>
             </div>
             <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="fmflag">是否封面<span class="kv-reqd">*</span></label>
+                            <input type="radio" value="0" name="fmflag" id="fmflag" checked>是&nbsp;<input type="radio" value="1" name="fmflag">否
+                        </div>
+                    </div>
 
+                </div>
 
                 <div class="form-group">
                     <div class="text-right">
