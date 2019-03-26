@@ -5,6 +5,7 @@ import com.fxpt.dao.GoodsFileDao;
 import com.fxpt.dto.Goods;
 import com.fxpt.dto.GoodsFile;
 import com.fxpt.dto.User;
+import com.fxpt.service.InterService;
 import com.fxpt.util.LogUtil;
 import com.fxpt.util.MenuUtil;
 import com.fxpt.util.Page;
@@ -14,9 +15,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Controller
@@ -28,6 +37,8 @@ public class GoodsController  {
 	GoodsDao goodsDao;
 	@Autowired
 	GoodsFileDao goodsFileDao;
+	@Autowired
+	InterService interService;
 	//首页跳转
 	@RequestMapping(value = "/index")
 	public String index(Model model, @ModelAttribute MenuUtil menuUtil, HttpServletRequest request) {
@@ -110,5 +121,68 @@ public class GoodsController  {
 		map.put("rows", pageList.getResult());
 		map.put("total", pageList.getTotalCount());
 		return map;
+	}
+
+
+
+	@RequestMapping(value = "/uploadGoodsFile")
+	public String uploadGoodsFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		User emp1 = (User) request.getSession().getAttribute("empSession");
+		response.setCharacterEncoding("UTF-8");
+		Map<String, Object> json = new HashMap<String, Object>();
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+		/** 页面控件的文件流* */
+		MultipartFile multipartFile = null;
+		Map map =multipartRequest.getFileMap();
+		String fmflag = multipartRequest.getParameter("fmflag");
+		String goodid = multipartRequest.getParameter("goodid");
+		for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+			Object obj = i.next();
+			multipartFile=(MultipartFile) map.get(obj);
+
+		}
+
+		/** 获取文件的后缀* */
+		String filename = multipartFile.getOriginalFilename();
+
+		InputStream inputStream;
+		//System.out.println("             "+request.getRealPath("/"));
+		String basePath="D:\\fxpt_upload\\goods\\";
+
+		File f = new File(basePath);
+		if(!f.exists()){
+			f.mkdir();
+		}
+
+
+		byte[] data = new byte[1024];
+		int len = 0;
+		FileOutputStream fileOutputStream = null;
+
+		try {
+			inputStream = multipartFile.getInputStream();
+			fileOutputStream = new FileOutputStream(basePath+filename);
+			while ((len = inputStream.read(data)) != -1) {
+				fileOutputStream.write(data, 0, len);
+			}
+			GoodsFile img = new GoodsFile();
+			img.setGoodid(Integer.parseInt(goodid));
+			img.setImgfile(filename);
+			img.setFlag("0");
+			img.setCuser(emp1.getId());
+			img.setFmflag(fmflag);
+			if(fmflag.equals("0")){
+				interService.addGoodFile(img);
+			}else {
+				goodsFileDao.addGoodsFile(img);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		return "redirect:imgfile?id="+goodid;
+
 	}
 }
