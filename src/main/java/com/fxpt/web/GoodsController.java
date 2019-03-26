@@ -4,6 +4,7 @@ import com.fxpt.dao.GoodsDao;
 import com.fxpt.dao.GoodsFileDao;
 import com.fxpt.dto.Goods;
 import com.fxpt.dto.GoodsFile;
+import com.fxpt.dto.Material;
 import com.fxpt.dto.User;
 import com.fxpt.service.InterService;
 import com.fxpt.util.LogUtil;
@@ -105,11 +106,13 @@ public class GoodsController  {
 
 
 	@RequestMapping(value = "/imgfile")
-	public String imgfile(String id, Model model) {
-
+	public String imgfile(String id,String name, Model model) {
+		model.addAttribute("goodname",name);
 		model.addAttribute("goodid",id);
 		return "goods/imgfile";
 	}
+
+
 
 
 
@@ -184,5 +187,65 @@ public class GoodsController  {
 
 		return "redirect:imgfile?id="+goodid;
 
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/lookview")
+	public Map lookview(Integer id,HttpServletRequest request){
+
+		Map map=new HashMap();
+		try{
+			GoodsFile gf = goodsFileDao.getFileById(id+"");
+
+			map.put("src",gf.getImgfile());
+			map.put("message","ok");
+
+		}catch (Exception e){
+			map.put("message","error");
+			return map;
+		}
+		return map;
+	}
+
+
+
+
+
+	@RequestMapping(value = "/addimg")
+	public String addimg(String goodid,Model model, @ModelAttribute MenuUtil menuUtil) {
+		model.addAttribute("goodid",goodid);
+		return "goods/addimg";
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "/deleteImg")
+	public String deleteImg(Integer id,HttpServletRequest request){
+		String message="";
+		try{
+			goodsFileDao.delete(id);
+			message="ok";
+		}catch (Exception e){
+			message="error";
+			return message;
+		}
+		return message;
+	}
+
+
+
+	//设置某个图片为封面图片
+	@ResponseBody
+	@RequestMapping(value = "/fm")
+	public String fm(Integer id,Integer goodid,String imgfile){
+		String result = "ok";
+		try{
+			interService.qyGoodsImg(id,goodid,imgfile);
+		}catch (Exception e){
+			result = "nook";
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
