@@ -30,6 +30,8 @@ public class InterService {
     UpGradeDao upGradeDao;
     @Autowired
     GoodsFileDao goodsFileDao;
+    @Autowired
+    GoodsDao goodsDao;
 
 
     //启用imgFile的某个图片放在首页
@@ -39,18 +41,20 @@ public class InterService {
         imgFileDao.updateQy(id);
     }
 
-    //启用goodsFile的某个图片做封面
+    //启用goodsFile的某个图片做封面,要更新t_goods表的imgfile
     @Transactional
-    public void qyGoodsImg(int id){
+    public void qyGoodsImg(int id,int goodid,String imgfile){
         goodsFileDao.updateZx();
         goodsFileDao.updateQy(id);
+        goodsDao.updateImgfile(goodid,imgfile);//更新goods表的imgfile的内容
     }
 
     //如果之前的图片有设置默认图片，调用改方法
     @Transactional
     public void addGoodFile(GoodsFile gf){
-        goodsFileDao.updateZx();
-        goodsFileDao.addGoodsFile(gf);
+        goodsFileDao.updateZx();//之前所有的图片都要把fmflag设置为1
+        goodsFileDao.addGoodsFile(gf);//插入新的封面图片
+        goodsDao.updateImgfile(gf.getGoodid(),gf.getImgfile());//更新goods表的imgfile的内容
     }
 
 
