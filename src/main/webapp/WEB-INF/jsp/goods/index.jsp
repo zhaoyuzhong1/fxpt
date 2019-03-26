@@ -25,7 +25,7 @@
             <section class="panel">
                 <div class="page-heading">
                     <h3 class="panel-title">
-                        <i class="fa fa-th-list" style="margin-right: 5px"></i>系统平台管理
+                        <i class="fa fa-th-list" style="margin-right: 5px"></i>商品管理
                     </h3>
                 </div>
                 <div class="panel-body" >
@@ -71,17 +71,24 @@
 
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 董事进货价：</label>
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 大区进货价：</label>
                         <div class="col-sm-7">
-                            <input id="buyprice1" maxlength="20" type="text" class="form-control" placeholder="董事进货价" >
+                            <input id="buyprice1" maxlength="20" type="text" class="form-control" placeholder="大区进货价" >
                         </div>
                     </div>
 
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3"><font color="red" >*</font> 大区进货价：</label>
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 总代进货价：</label>
                         <div class="col-sm-7">
-                            <input id="buyprice2" maxlength="20" type="text" class="form-control" placeholder="大区进货价" >
+                            <input id="buyprice2" maxlength="20" type="text" class="form-control" placeholder="总代进货价" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3"><font color="red" >*</font> 小白进货价：</label>
+                        <div class="col-sm-7">
+                            <input id="buyprice3" maxlength="20" type="text" class="form-control" placeholder="小白进货价" >
                         </div>
                     </div>
 
@@ -160,7 +167,7 @@
         <div class="modal-content">
             <div class="modal-header1">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">查看平台信息</h4>
+                <h4 class="modal-title">查看商品信息</h4>
             </div>
             <div class="panel-body" >
                 <form class="form-horizontal" role="form">
@@ -179,15 +186,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label  class="col-lg-3 col-sm-2 control-label">董事进货价：</label>
+                        <label  class="col-lg-3 col-sm-2 control-label">大区进货价：</label>
                         <div class="col-lg-8">
                             <label id="buyprice1_" class="labelStyle-style-lable"></label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label  class="col-lg-3 col-sm-2 control-label">大区进货价：</label>
+                        <label  class="col-lg-3 col-sm-2 control-label">总代进货价：</label>
                         <div class="col-lg-8">
                             <label id="buyprice2_" class="labelStyle-style-lable"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label  class="col-lg-3 col-sm-2 control-label">小白进货价：</label>
+                        <div class="col-lg-8">
+                            <label id="buyprice3_" class="labelStyle-style-lable"></label>
                         </div>
                     </div>
 
@@ -303,10 +317,13 @@
                         title: '零售价'
                     }, {
                         field: 'buyprice1',
-                        title: '董事进货价'
+                        title: '大区进货价'
                     }, {
                         field: 'buyprice2',
-                        title: '大区进货价'
+                        title: '总代进货价'
+                    }, {
+                        field: 'buyprice3',
+                        title: '小白进货价'
                     }, {
                         field: 'stock',
                         title: '库存'
@@ -315,12 +332,12 @@
                         width:'100px',
                         formatter: function(value,row,index){
                             var button ='<div class="btn-group btn-group-xs">'+
-                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="All(\''+ row.name + '\',\''+ row.price + '\',\''+ row.buyprice1 + '\',\''+ row.buyprice2 + '\',\''+ row.spec + '\',\''+ row.taste + '\',\''+ row.proadd + '\',\''+ row.fitpeople + '\',\''+ row.stuff + '\',\''+ row.detail + '\',\''+ row.stock + '\')" ><i class="fa fa-eye"></i>&nbsp;查&nbsp看</button>';
+                                    '<button type="button" class="btn btn-default btn-maincolor"onclick="All(\''+ row.name + '\',\''+ row.price + '\',\''+ row.buyprice1 + '\',\''+ row.buyprice2 + '\',\''+ row.buyprice3 + '\',\''+ row.spec + '\',\''+ row.taste + '\',\''+ row.proadd + '\',\''+ row.fitpeople + '\',\''+ row.stuff + '\',\''+ row.detail + '\',\''+ row.stock + '\')" ><i class="fa fa-eye"></i>&nbsp;查&nbsp看</button>';
                             var e =  '<button type="button" class="btn btn-default btn-maincolor dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> '+
                                     '<span class="caret"></span>'+
                                     '</button>'+
                                     '<ul class="dropdown-menu dropdown-menu-right">'+
-                                    '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGoods(\''+ row.id + '\',\''+ row.name + '\',\''+ row.price + '\',\''+ row.buyprice1 + '\',\''+ row.buyprice2 + '\',\''+ row.spec + '\',\''+ row.taste + '\',\''+ row.proadd + '\',\''+ row.fitpeople + '\',\''+ row.stuff + '\',\''+ row.detail + '\',\''+ row.stock + '\')">修改</button></li>'+
+                                    '<li style="float: none;"><button type="button" class="btn btn-link" onclick="updateGoods(\''+ row.id + '\',\''+ row.name + '\',\''+ row.price + '\',\''+ row.buyprice1 + '\',\''+ row.buyprice2 + '\',\''+ row.buyprice3 + '\',\''+ row.spec + '\',\''+ row.taste + '\',\''+ row.proadd + '\',\''+ row.fitpeople + '\',\''+ row.stuff + '\',\''+ row.detail + '\',\''+ row.stock + '\')">修改</button></li>'+
                                     '<li style="float: none;"><button type="button" class="btn btn-link" onclick="imgfile(\''+ row.id + '\')">图片管理</button></li>'+
                                     '<li style="float: none;"><button id="ServerStop" class="btn btn-link "onclick="deleteGoods(\''+row.id+'\')" style="color:red"> 删除</button></li>'+
                                     '</ul>';
@@ -355,6 +372,7 @@
         $('#price').val("");
         $('#buyprice1').val("");
         $('#buyprice2').val("");
+        $('#buyprice3').val("");
         $('#spec').val("");
         $('#taste').val("");
         $('#proadd').val("");
@@ -373,6 +391,7 @@
         var price = $("#price").val();
         var buyprice1 = $("#buyprice1").val();
         var buyprice2 = $("#buyprice2").val();
+        var buyprice3 = $("#buyprice3").val();
         var spec = $("#spec").val();
         var taste = $("#taste").val();
         var proadd = $("#proadd").val();
@@ -391,10 +410,13 @@
             Showbo.Msg.alert("商品名称含有非法字符，请重新输入！");
             return false;
         }else if($.isEmptyObject(buyprice1)||buyprice1.trim()==""){
-            Showbo.Msg.alert("请输入董事进货价！");
+            Showbo.Msg.alert("请输入大区进货价！");
             return false;
         }else if($.isEmptyObject(buyprice2)||buyprice2.trim()==""){
-            Showbo.Msg.alert("请输入大区进货价！");
+            Showbo.Msg.alert("请输入总代进货价！");
+            return false;
+        }else if($.isEmptyObject(buyprice3)||buyprice3.trim()==""){
+            Showbo.Msg.alert("请输入小白进货价！");
             return false;
         }else if($.isEmptyObject(stock)||stock.trim()==""){
             Showbo.Msg.alert("请输入库存！");
@@ -404,7 +426,7 @@
             return false;
         }
 
-        $.post("${ctx}/goods/addGoods",{name:name.trim(),price:price.trim(),buyprice1:buyprice1.trim(),buyprice2:buyprice2.trim(),spec:spec.trim(),taste:taste.trim(),proadd:proadd.trim(),fitpeople:fitpeople.trim(),stuff:stuff.trim(),detail:detail.trim(),stock:stock.trim()},function (d) {
+        $.post("${ctx}/goods/addGoods",{name:name.trim(),price:price.trim(),buyprice1:buyprice1.trim(),buyprice2:buyprice2.trim(),buyprice3:buyprice3.trim(),spec:spec.trim(),taste:taste.trim(),proadd:proadd.trim(),fitpeople:fitpeople.trim(),stuff:stuff.trim(),detail:detail.trim(),stock:stock.trim()},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
@@ -425,13 +447,14 @@
     }
 
     //打开修改模态框
-    function updateGoods(id,name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock) {
+    function updateGoods(id,name,price,buyprice1,buyprice2,buyprice3,spec,taste,proadd,fitpeople,stuff,detail,stock) {
         $('#allid').val(id);
         $('#name').val(name);
         $('#price').val(price);
 
         $('#buyprice1').val(buyprice1);
         $('#buyprice2').val(buyprice2);
+        $('#buyprice3').val(buyprice3);
         $('#spec').val(spec);
         $('#taste').val(taste);
         $('#proadd').val(proadd);
@@ -452,6 +475,7 @@
         var price = $("#price").val();
         var buyprice1 = $("#buyprice1").val();
         var buyprice2 = $("#buyprice2").val();
+        var buyprice3 = $("#buyprice3").val();
         var spec = $("#spec").val();
         var taste = $("#taste").val();
         var proadd = $("#proadd").val();
@@ -469,10 +493,13 @@
             Showbo.Msg.alert("商品名称含有非法字符，请重新输入！");
             return false;
         }else if($.isEmptyObject(buyprice1)||buyprice1.trim()==""){
-            Showbo.Msg.alert("请输入董事进货价！");
+            Showbo.Msg.alert("请输入大区进货价！");
             return false;
         }else if($.isEmptyObject(buyprice2)||buyprice2.trim()==""){
-            Showbo.Msg.alert("请输入大区进货价！");
+            Showbo.Msg.alert("请输入总代进货价！");
+            return false;
+        }else if($.isEmptyObject(buyprice3)||buyprice3.trim()==""){
+            Showbo.Msg.alert("请输入小白进货价！");
             return false;
         }else if($.isEmptyObject(stock)||stock.trim()==""){
             Showbo.Msg.alert("请输入库存！");
@@ -482,7 +509,7 @@
             return false;
         }
 
-        $.post("${ctx}/goods/updateGoods",{id:id,name:name.trim(),price:price.trim(),buyprice1:buyprice1.trim(),buyprice2:buyprice2.trim(),spec:spec.trim(),taste:taste.trim(),proadd:proadd.trim(),fitpeople:fitpeople.trim(),stuff:stuff.trim(),detail:detail.trim(),stock:stock.trim()},function (d) {
+        $.post("${ctx}/goods/updateGoods",{id:id,name:name.trim(),price:price.trim(),buyprice1:buyprice1.trim(),buyprice2:buyprice2.trim(),buyprice3:buyprice3.trim(),spec:spec.trim(),taste:taste.trim(),proadd:proadd.trim(),fitpeople:fitpeople.trim(),stuff:stuff.trim(),detail:detail.trim(),stock:stock.trim()},function (d) {
             if(d=="ajaxfail"){
                 Showbo.Msg.confirm1("会话过期,请重新登录!",function(btn){
                     if(btn=="yes"){
@@ -504,12 +531,13 @@
 
 
     //查看
-    function All(name,price,buyprice1,buyprice2,spec,taste,proadd,fitpeople,stuff,detail,stock){
+    function All(name,price,buyprice1,buyprice2,buyprice3,spec,taste,proadd,fitpeople,stuff,detail,stock){
         $('#name_').text(name);
         $('#price_').text(price);
 
         $('#buyprice1_').text(buyprice1);
         $('#buyprice2_').text(buyprice2);
+        $('#buyprice3_').text(buyprice3);
         $('#spec_').text(spec);
         $('#taste_').text(taste);
         $('#proadd_').text(proadd);
