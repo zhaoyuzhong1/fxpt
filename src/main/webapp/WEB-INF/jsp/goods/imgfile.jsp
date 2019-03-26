@@ -157,12 +157,15 @@
                         title: '图片名称'
                     }, {
                         field: 'cdate',
-                        title: '上传时间'
+                        title: '上传时间',
+                        formatter: function(value,row,index){
+                            return getTime(value)
+                        }
                     }, {
                         title: '操作',
-                        width:'100px',
+                        width:'240px',
                         formatter: function(value,row,index){
-                            var button ='<div class="btn-group btn-group-xs" style="width:130px">'+
+                            var button ='<div class="btn-group btn-group-xs" style="width:240px">'+
                                 '<button type="button" class="btn btn-default btn-maincolor"onclick="lookview(\'' + row.id+'\')" ><i class="fa fa-eye"></i>&nbsp;查&nbsp;看</button>';
                             var b = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="deleteImg(\''+ row.id + '\')" ><i class="fa fa-eye"></i>&nbsp;删&nbsp;除</button>';
                             var e = '';
@@ -170,7 +173,7 @@
                                 e = '<button type="button" style="margin-left: 10px"  class="btn btn-default btn-maincolor" onclick="fm(\''+ row.id + '\',\''+ row.goodid + '\',\''+ row.imgfile + '\')" ><i class="fa fa-eye"></i>设为封面</button>';
                             }
 
-                            return button +e+ b+ '</div>';
+                            return button +e+''+ b+ '</div>';
                         }
                     }
                 ]
@@ -281,6 +284,21 @@
                 });
             }
         })
+    }
+
+
+    function getTime(timestamp) {
+        var ts = arguments[0] || 0;
+        var t,y,m,d,h,i,s;
+        t = ts ? new Date(parseInt(ts)) : new Date();
+        y = t.getFullYear();
+        m = t.getMonth()+1;
+        d = t.getDate();
+        h = t.getHours();
+        i = t.getMinutes();
+        s = t.getSeconds();
+        // 可根据需要在这里定义时间格式
+        return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
     }
 </script>
 </html>
