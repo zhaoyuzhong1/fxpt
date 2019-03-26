@@ -29,6 +29,12 @@ public class GoodsFileDao {
     }
 
 
+    public GoodsFile getFileById(String id){
+        String sql = "select * from t_goods_file where id=?";
+        return baseDao.queryForObject(sql,GoodsFile.class,new Object[]{id});
+    }
+
+
 
 
     public int updateZx() {
@@ -43,6 +49,9 @@ public class GoodsFileDao {
         String sql="update t_goods_file set fmflag='0' where id=?";
         return baseDao.update2(sql,new Object[]{id});
     }
+
+
+
 
 
     public Integer addGoodsFile(GoodsFile g){
