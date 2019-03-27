@@ -5,7 +5,7 @@
 <!DOCcode html>
 
 <style>
-    img{
+    #divs img{
         width: 100%;
         height: 100%;
     }
