@@ -5,12 +5,12 @@
 <!DOCcode html>
 
 <style>
-    img{
-        width: 100%;
-        height: 100%;
-    }
     #divs{
         width: 570px;
+    }
+    #divs img {
+        width: 100%;
+        height: 100%;
     }
 </style>
 <html lang="en">
